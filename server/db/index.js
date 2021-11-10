@@ -1,5 +1,8 @@
 const mongoose = require('mongoose');
 const user = require('./user');
+const employee = require('./employee');
+const orgStructure = require('./orgStructure');
+const project = require('./project');
 const env = require('dotenv').config();
 
 // Database Connection
@@ -21,4 +24,7 @@ const connDB = () => {
 module.exports = {
   connDB,
   user,
+  employee,
+  orgStructure,
+  project,
 };
