@@ -43,7 +43,7 @@ const authenticateToken = (req, res, next) => {
 
 // Create Tokens
 const createTokens = (user) => {
-  return jwt.sign(user, process.env.ACCESS_TOKEN_SECRET, { expiresIn: '1m' }); //NOTE: length of time is only for testing
+  return jwt.sign(user, process.env.ACCESS_TOKEN_SECRET, { expiresIn: '100m' }); //NOTE: length of time is only for testing
 };
 
 module.exports = {

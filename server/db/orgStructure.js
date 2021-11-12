@@ -19,7 +19,7 @@ const getStructure = async (orgUsername) => {
   try {
     if (!orgUsername) throw new Error("Organization's username is undefined");
     const structure = await models.findOneModel(orgStructureModel, {
-      username: orgUsername,
+      orgUsername: orgUsername,
     });
     return structure;
   } catch (err) {
@@ -30,12 +30,12 @@ const getStructure = async (orgUsername) => {
 
 const updateStructure = async (orgUsername, Data) => {
   try {
-    if (!username) throw new Error("No organization's username provided");
+    if (!orgUsername) throw new Error("No organization's username provided");
     if (!Data) return { success: true };
 
     await models.findOneAndUpdate(
       orgStructureModel,
-      { username: orgUsername },
+      { orgUsername: orgUsername },
       Data
     );
 

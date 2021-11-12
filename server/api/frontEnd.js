@@ -9,40 +9,51 @@ const authenticateToken = auth.authenticateToken;
 // Routers
 router.get('/user', authenticateToken, (req, res) => {
   const username = req.user.name;
-  db.user.getUser(username).then((user) => res.json(user));
+  db.user
+    .getUser(username)
+    .then((user) => res.json(user))
+    .catch((err) => res.sendStatus(500));
 });
 
 router.get('/employees', authenticateToken, (req, res) => {
   const username = req.user.name;
 
-  console.log('TEST isORG: ', isOrg(username)); //test...
-  if (!isOrg(username)) return res.sendStatus(400);
-
-  db.employee
-    .getOrgEmployees(username)
-    .then((employees) => res.json(employees));
+  isOrg(username)
+    .then((conf) => {
+      if (!conf) return res.sendStatus(400);
+    })
+    .then(() => db.employee.getOrgEmployees(username))
+    .then((employees) => res.json(employees))
+    .catch((err) => res.sendStatus(500));
 });
 
 router.get('/structure', authenticateToken, (req, res) => {
   const username = req.user.name;
-  if (!isOrg(username)) res.sendStatus(400);
-
-  db.orgStructure
-    .getStructure(username)
-    .then((structure) => res.json(structure));
+  isOrg(username)
+    .then((conf) => {
+      if (!conf) return res.sendStatus(400);
+    })
+    .then(() => db.orgStructure.getStructure(username))
+    .then((structure) => res.json(structure))
+    .catch((err) => res.sendStatus(500));
 });
 
-//TODO: check for right org
 router.post('/structure', authenticateToken, (req, res) => {
   const username = req.user.name;
   const structureBody = req.body;
-  if (!isOrg(username)) res.sendStatus(400);
+  if (structureBody.orgUsername !== username) return res.sendStatus(400);
 
-  db.orgStructure.getStructure(username).then((structure) => {
-    console.log('TEST structure', structure); //test...
-    if (!structure) return db.orgStructure.createStructure(structureBody);
-    return db.orgStructure.updateStructure(structureBody);
-  });
+  isOrg(username)
+    .then((conf) => {
+      if (!conf) return res.sendStatus(400);
+    })
+    .then(() => db.orgStructure.getStructure(username))
+    .then((structure) => {
+      if (!structure) return db.orgStructure.createStructure(structureBody);
+      return db.orgStructure.updateStructure(username, structureBody);
+    })
+    .then(() => res.json({ success: true }))
+    .catch((err) => res.sendStatus(500));
 });
 
 router.post('/project', authenticateToken, (req, res) => {
@@ -51,28 +62,41 @@ router.post('/project', authenticateToken, (req, res) => {
   const orgUsername = req.body.orgUsername;
 
   if (username !== orgUsername) return res.sendStatus(400);
-  if (!isOrg(username)) return res.sendStatus(400);
-
-  db.project.getProject(projectName).then((project) => {
-    if (!project) return db.project.createProject(project);
-    return res.res(400); // TODO: create an update functionality
-  });
+  isOrg(username)
+    .then((conf) => {
+      if (!conf) return res.sendStatus(400);
+    })
+    .then(() => db.project.getProject(projectName))
+    .then((project) => {
+      if (!project) return db.project.createProject(req.body);
+      return res.sendStatus(400);
+    })
+    .catch((err) => res.sendStatus(500));
 });
 
 router.get('/projects', authenticateToken, (req, res) => {
   const username = req.user.name;
-  if (!isOrg(username)) res.sendStatus(400);
 
-  db.project.getOrgProjects(username).then((projects) => res.json(projects));
+  isOrg(username)
+    .then((conf) => {
+      if (!conf) return res.sendStatus(400);
+    })
+    .then(() => db.project.getOrgProjects(username))
+    .then((projects) => res.json(projects))
+    .catch((err) => res.sendStatus(500));
 });
 
 router.get('/project/:projectName', authenticateToken, (req, res) => {
   const username = req.user.name;
   const projectName = req.params.projectName;
 
-  if (!isOrg(username)) return res.sendStatus(400);
-
-  db.project.getProject(projectName).then((project) => res.json(project));
+  isOrg(username)
+    .then((conf) => {
+      if (!conf) return res.sendStatus(400);
+    })
+    .then(() => db.project.getProject(username, projectName))
+    .then((project) => res.json(project))
+    .catch((err) => res.sendStatus(500));
 });
 
 // Helpers
