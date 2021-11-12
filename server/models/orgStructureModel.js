@@ -8,6 +8,7 @@ const orgStructureSchema = new Schema({
     unique: true,
   },
   structure: {
+    type: Object,
     required: true,
   },
 });

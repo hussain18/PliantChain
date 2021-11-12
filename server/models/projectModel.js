@@ -16,6 +16,7 @@ const projectSchema = new Schema({
     required: false,
   },
   projectStructure: {
+    type: Object,
     required: false,
   },
 });

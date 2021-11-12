@@ -15,11 +15,12 @@ const createProject = async (project) => {
   }
 };
 
-const getProject = async (projectName) => {
+const getProject = async (orgUsername, projectName) => {
   try {
     if (!projectName) throw new Error('Project name is undefined');
     const project = await models.findOneModel(projectModel, {
       projectName: projectName,
+      orgUsername: orgUsername,
     });
     return project;
   } catch (err) {
@@ -31,12 +32,12 @@ const getProject = async (projectName) => {
 const getOrgProjects = async (orgUsername) => {
   try {
     if (!orgUsername) throw new Error("Organization's username is undefined");
-    const projects = await models.findModel(projectsModel, {
+    const projects = await models.findModel(projectModel, {
       orgUsername: orgUsername,
     });
     return projects;
   } catch (err) {
-    console.log('DB_GET_ORG_PROJECT_ERROR: ', err);
+    console.log('DB_GET_ORG_PROJECTS_ERROR: ', err);
     return { success: false };
   }
 };
