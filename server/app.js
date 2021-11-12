@@ -24,6 +24,7 @@ app.get('/', (req, res) => {
 app.use('/', api.authRouter);
 
 // Front End Routers
+app.use('/', api.frontEndRouter);
 
 // Chain Routers
 
