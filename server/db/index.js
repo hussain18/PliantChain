@@ -3,6 +3,7 @@ const user = require('./user');
 const employee = require('./employee');
 const orgStructure = require('./orgStructure');
 const project = require('./project');
+const projStructure = require('./projStructure');
 const env = require('dotenv').config();
 
 // Database Connection
@@ -27,4 +28,5 @@ module.exports = {
   employee,
   orgStructure,
   project,
+  projStructure,
 };

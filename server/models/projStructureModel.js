@@ -1,8 +1,13 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
-const orgStructureSchema = new Schema({
+const projStructureSchema = new Schema({
   orgUsername: {
+    type: String,
+    required: true,
+    unique: true,
+  },
+  projectName: {
     type: String,
     required: true,
     unique: true,
@@ -23,4 +28,4 @@ const orgStructureSchema = new Schema({
   },
 });
 
-module.exports = mongoose.model('org_structure', orgStructureSchema);
+module.exports = mongoose.model('proj_structure', projStructureSchema);

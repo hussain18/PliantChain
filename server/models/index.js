@@ -3,6 +3,7 @@ const userModel = require('./userModel');
 const employeeModel = require('./employeeModel');
 const orgStructureModel = require('./orgStructureModel');
 const projectModel = require('./projectModel');
+const projStructureModel = require('./projStructureModel');
 
 const saveModel = async (model) => {
   try {
@@ -41,6 +42,7 @@ module.exports = {
   employeeModel,
   projectModel,
   orgStructureModel,
+  projStructureModel,
   saveModel,
   findOneModel,
   findModel,
