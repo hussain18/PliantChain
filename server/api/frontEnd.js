@@ -125,8 +125,6 @@ router.get('/project/:projectName', authenticateToken, (req, res) => {
         projectName
       );
 
-      project.structure = projectStructure;
-
       return res.json({ project: project, structure: projectStructure });
     })
     .catch((err) => res.sendStatus(500));
