@@ -18,6 +18,7 @@ const createProject = async (project) => {
 const getProject = async (orgUsername, projectName) => {
   try {
     if (!projectName) throw new Error('Project name is undefined');
+
     const project = await models.findOneModel(projectModel, {
       projectName: projectName,
       orgUsername: orgUsername,

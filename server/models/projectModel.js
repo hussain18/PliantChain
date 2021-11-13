@@ -11,14 +11,6 @@ const projectSchema = new Schema({
     required: true,
     unique: true,
   },
-  employeeIds: {
-    type: Array,
-    required: false,
-  },
-  projectStructure: {
-    type: Object,
-    required: false,
-  },
 });
 
 module.exports = mongoose.model('project', projectSchema);
