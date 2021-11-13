@@ -33,7 +33,7 @@ router.get('/structure', authenticateToken, (req, res) => {
     .then((conf) => {
       if (!conf) return res.sendStatus(400);
     })
-    .then(() => db.orgStructure.getStructure(username))
+    .then(() => db.orgStructure.getOrgStructure(username))
     .then((structure) => res.json(structure))
     .catch((err) => res.sendStatus(500));
 });
@@ -41,13 +41,14 @@ router.get('/structure', authenticateToken, (req, res) => {
 router.post('/structure', authenticateToken, (req, res) => {
   const username = req.user.name;
   const structureBody = req.body;
+  const empUsername = structureBody.empUsername;
   if (structureBody.orgUsername !== username) return res.sendStatus(400);
 
   isOrg(username)
     .then((conf) => {
       if (!conf) return res.sendStatus(400);
     })
-    .then(() => db.orgStructure.getStructure(username))
+    .then(() => db.orgStructure.getStructure(username, empUsername))
     .then((structure) => {
       if (!structure) return db.orgStructure.createStructure(structureBody);
       return db.orgStructure.updateStructure(username, structureBody);
@@ -103,6 +104,15 @@ router.get('/project/:projectName', authenticateToken, (req, res) => {
 const isOrg = async (username) => {
   const user = await db.user.getUser(username);
   return user.type === '1';
+};
+
+const isEmpAlreadyInStr = async (orgUsername, empUsername) => {
+  const structure = await db.orgStructure.getStructure(
+    orgUsername,
+    empUsername
+  );
+
+  return structure;
 };
 
 module.exports = router;

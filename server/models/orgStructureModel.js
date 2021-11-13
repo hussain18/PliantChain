@@ -7,8 +7,18 @@ const orgStructureSchema = new Schema({
     required: true,
     unique: true,
   },
-  structure: {
-    type: Object,
+  empUsername: {
+    type: String,
+    required: true,
+    unique: true,
+  },
+  empAccountAddress: {
+    type: String,
+    required: true,
+    unique: true,
+  },
+  authorities: {
+    type: Array,
     required: true,
   },
 });
