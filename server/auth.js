@@ -26,19 +26,26 @@ const authenticateUser = async (user) => {
 
 // Authenticate tokens
 const authenticateToken = (req, res, next) => {
-  const authHeader = req.headers.authorization.split(' ')[1];
+  try {
+    if (!req.headers.authorization) return res.sendStatus(403);
 
-  // Note: Uncomment the following when using react
-  // const authHeader = req.headers.authorization;
+    const authHeader = req.headers.authorization.split(' ')[1];
 
-  const token = authHeader;
-  if (token == null) return res.sendStatus(401);
+    // Note: Uncomment the following when using react
+    // const authHeader = req.headers.authorization;
 
-  jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, (err, user) => {
-    if (err) return res.sendStatus(403);
-    req.user = user;
-    next();
-  });
+    const token = authHeader;
+    if (token == null) return res.sendStatus(401);
+
+    jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, (err, user) => {
+      if (err) return res.sendStatus(403);
+      req.user = user;
+      next();
+    });
+  } catch (err) {
+    console.log('TOKEN_AUTHENTICATION_ERROR: ', err);
+    return res.sendStatus(500);
+  }
 };
 
 // Create Tokens

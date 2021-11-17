@@ -27,6 +27,8 @@ app.use('/', api.authRouter);
 app.use('/', api.frontEndRouter);
 
 // Chain Routers
+app.use('/', api.chainRouter);
+app.use('/', api.chainExternalAdapter);
 
 // Listening
 app.listen(PORT, () => {
