@@ -29,10 +29,10 @@ const authenticateToken = (req, res, next) => {
   try {
     if (!req.headers.authorization) return res.sendStatus(403);
 
-    const authHeader = req.headers.authorization.split(' ')[1];
+    // const authHeader = req.headers.authorization.split(' ')[1];
 
     // Note: Uncomment the following when using react
-    // const authHeader = req.headers.authorization;
+    const authHeader = req.headers.authorization;
 
     const token = authHeader;
     if (token == null) return res.sendStatus(401);

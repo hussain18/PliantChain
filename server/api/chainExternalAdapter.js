@@ -15,6 +15,7 @@ const customParams = {
   orgAddress: ['orgAddress'],
   senderAddress: ['senderAddress'],
   receiverAddress: ['receiverAddress'],
+  jwtToken: ['jwtToken'],
 };
 
 const createRequest = (input, callback) => {
@@ -24,16 +25,17 @@ const createRequest = (input, callback) => {
   const orgAddr = validator.validated.data.orgAddress;
   const senAddr = validator.validated.data.senderAddress;
   const recAddr = validator.validated.data.receiverAddress;
-  //   const jwtToken = validator.validated.data.jwtToken;
+  const jwtToken = validator.validated.data.jwtToken;
   const url = `http://localhost:${process.env.PORT}/chain-transaction/${orgAddr}/${senAddr}/${recAddr}`;
   const method = 'get';
-  //   const headers = {
-  //     authorization: jwtToken,
-  //   };
+  const headers = {
+    authorization: jwtToken,
+  };
 
   const config = {
     url,
     method,
+    headers,
   };
 
   // The Requester allows API calls be retry in case of timeout
