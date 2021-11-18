@@ -1,7 +1,7 @@
 import React from 'react';
 import Dashboard from './pages/dashboard';
 import Settings from './pages/settings';
-import signin from './pages/signin';
+import Signin from './pages/signin';
 import Team from './pages/team';
 import Projects from './pages/project';
 import Profile from './pages/profile';
@@ -15,7 +15,7 @@ function App() {
   return (
     <Router>
       <Routes>     
-        <Route path="/signin" element = {<signin/>} />
+        <Route path="/signin" element = {<Signin/>} />
         <Route path="/team" element = {<Team/>} /> 
         <Route path="/project" element = {<Projects/>} />   
         <Route path="/profile" element = {<Profile/>} /> 
