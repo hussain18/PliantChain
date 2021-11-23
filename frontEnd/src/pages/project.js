@@ -51,7 +51,7 @@ const posts = [
 const navigation = [
   { name: 'Home', href: '#', icon: HomeIcon, current: true },
   { name: 'History', href: '#/history', icon: ClockIcon, current: false },
-  { name: 'Balances', href: '#', icon: ScaleIcon, current: false },
+  { name: 'Balances', href: '#/balances', icon: ScaleIcon, current: false },
   { name: 'Profile', href: '#', icon: CreditCardIcon, current: false },
   { name: 'Team', href: '#/team', icon: UserGroupIcon, current: false },
   { name: 'Project', href: '#/project', icon: DocumentReportIcon, current: false },

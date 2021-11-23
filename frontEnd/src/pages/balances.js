@@ -1,16 +1,12 @@
 import { Fragment, useState } from 'react'
 import Footer from '../components/footer'
 import { Dialog, Menu, Transition } from '@headlessui/react'
-
 import {
   BellIcon,
   ClockIcon,
   CogIcon,
   CreditCardIcon,
-  MailIcon,
-  ChevronLeftIcon,
   DocumentReportIcon,
-  PhoneIcon,
   HomeIcon,
   MenuAlt1Icon,
   QuestionMarkCircleIcon,
@@ -27,33 +23,7 @@ import {
   OfficeBuildingIcon,
   SearchIcon,
 } from '@heroicons/react/solid'
-const tabs = [
-    { name: 'Profile', href: '#', current: true },
-    { name: 'Calendar', href: '#', current: false },
-    // { name: 'Recognition', href: '#', current: false },
-  ]
 
-const profile = {
-    name: 'Sunita Patil',
-    imageUrl:
-      'https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
-    coverImageUrl:
-      'https://images.unsplash.com/photo-1444628838545-ac4016a5418a?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=1950&q=80',
-    about: `
-      <p>Hello there I am sunita patil. pursuing my education in Vishwakarma Institute of Technology Pune.I am a final year student and coding enthusiast.Hello there I am sunita patil. pursuing my education in Vishwakarma Institute of Technology Pune.I am a final year student and coding enthusiast.</p>
-    `,
-    fields: {
-      Phone: '(+91) 12389-45697',
-      Email: 'sunita.patil18@vit.edu',
-      Title: 'Front-End Developer',
-      Team: 'Product Development',
-      Location: 'Bengaluru',
-      Sits: 'India',
-      Salary: '$111000',
-      Birthday: 'May 1, 2000',
-    },
-  }
-  
 const navigation = [
   { name: 'Home', href: '#', icon: HomeIcon, current: true },
   { name: 'History', href: '#/history', icon: ClockIcon, current: false },
@@ -94,7 +64,7 @@ function classNames(...classes) {
   return classes.filter(Boolean).join(' ')
 }
 
-export default function Profile() {
+export default function Balances() {
   const [sidebarOpen, setSidebarOpen] = useState(false)
 
   return (
@@ -330,7 +300,7 @@ export default function Profile() {
                       <Menu.Item>
                         {({ active }) => (
                           <a
-                            href="#"
+                            href="#/signin"
                             className={classNames(active ? 'bg-gray-100' : '', 'block px-4 py-2 text-sm text-gray-700')}
                           >
                             Logout
@@ -343,95 +313,103 @@ export default function Profile() {
               </div>
             </div>
           </div>
-          <main className="flex-1 flex overflow-hidden">
-            <div className="flex-1 flex flex-col overflow-y-auto xl:overflow-hidden">
-              {/* Breadcrumb */}
-              {/* <article> */}
-                {/* Profile header */}
-                <div>
-                  <div>
-                    <img className="h-32 w-full object-cover lg:h-48" src={profile.coverImageUrl} alt="" />
-                  </div>
-                  <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
-                    <div className="-mt-12 sm:-mt-16 sm:flex sm:items-end sm:space-x-5">
-                      <div className="flex">
-                        <img
-                          className="h-24 w-24 rounded-full ring-4 ring-white sm:h-32 sm:w-32"
-                          src={profile.imageUrl}
-                          alt=""
-                        />
-                      </div>
-                      <div className="mt-6 sm:flex-1 sm:min-w-0 sm:flex sm:items-center sm:justify-end sm:space-x-6 sm:pb-1">
-                        <div className="sm:hidden 2xl:block mt-6 min-w-0 flex-1">
-                          <h1 className="text-2xl font-bold text-gray-900 truncate">{profile.name}</h1>
-                        </div>
-                        <div className="mt-6 flex flex-col justify-stretch space-y-3 sm:flex-row sm:space-y-0 sm:space-x-4">
-                          <button
-                            type="button"
-                            className="inline-flex justify-center px-4 py-2 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-pink-500"
-                          >
-                            <MailIcon className="-ml-1 mr-2 h-5 w-5 text-gray-400" aria-hidden="true" />
-                            <span>Message</span>
-                          </button>
-                          <button
-                            type="button"
-                            className="inline-flex justify-center px-4 py-2 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-pink-500"
-                          >
-                            <PhoneIcon className="-ml-1 mr-2 h-5 w-5 text-gray-400" aria-hidden="true" />
-                            <span>Call</span>
-                          </button>
-                        </div>
-                      </div>
-                    </div>
-                    <div className="hidden sm:block 2xl:hidden mt-6 min-w-0 flex-1">
-                      <h1 className="text-2xl font-bold text-gray-900 truncate">{profile.name}</h1>
-                    </div>
-                  </div>
-                </div>
-
-                {/* Tabs */}
-                <div className="mt-6 sm:mt-2 2xl:mt-5">
-                  <div className="border-b border-gray-200">
-                    <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
-                      <nav className="-mb-px flex space-x-8" aria-label="Tabs">
-                        {tabs.map((tab) => (
-                          <a
-                            key={tab.name}
-                            href={tab.href}
-                            className={classNames(
-                              tab.current
-                                ? 'border-pink-500 text-gray-900'
-                                : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300',
-                              'whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm'
-                            )}
-                            aria-current={tab.current ? 'page' : undefined}
-                          >
-                            {tab.name}
-                          </a>
-                        ))}
-                      </nav>
-                    </div>
-                  </div>
-                </div>
-
-                {/* Description list */}
-                <div className="mt-6 max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
-                  <dl className="grid grid-cols-1 gap-x-4 gap-y-8 sm:grid-cols-2">
-                    {Object.keys(profile.fields).map((field) => (
-                      <div key={field} className="sm:col-span-1">
-                        <dt className="text-sm font-medium text-gray-500">{field}</dt>
-                        <dd className="mt-1 text-sm text-gray-900">{profile.fields[field]}</dd>
-                      </div>
-                    ))}
-                    <div className="sm:col-span-2">
-                      <dt className="text-sm font-medium text-gray-500">About</dt>
-                      <dd
-                        className="mt-1 max-w-prose text-sm text-gray-900 space-y-5"
-                        dangerouslySetInnerHTML={{ __html: profile.about }}
+          <main className="flex-1 pb-8">
+            {/* Page header */}
+            <div className="bg-white shadow">
+              <div className="px-4 sm:px-6 lg:max-w-6xl lg:mx-auto lg:px-8">
+                <div className="py-6 md:flex md:items-center md:justify-between lg:border-t lg:border-gray-200">
+                  <div className="flex-1 min-w-0">
+                    {/* Profile */}
+                    <div className="flex items-center">
+                      <img
+                        className="hidden h-16 w-16 rounded-full sm:block"
+                        src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2.6&w=256&h=256&q=80"
+                        alt=""
                       />
+                      <div>
+                        <div className="flex items-center">
+                          <img
+                            className="h-16 w-16 rounded-full sm:hidden"
+                            src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2.6&w=256&h=256&q=80"
+                            alt=""
+                          />
+                          <h1 className="ml-3 text-2xl font-bold leading-7 text-gray-900 sm:leading-9 sm:truncate">
+                            Hello, Sunita Patil
+                          </h1>
+                        </div>
+                        <dl className="mt-6 flex flex-col sm:ml-3 sm:mt-1 sm:flex-row sm:flex-wrap">
+                          <dt className="sr-only">Company</dt>
+                          <dd className="flex items-center text-sm text-gray-500 font-medium capitalize sm:mr-6">
+                            <OfficeBuildingIcon
+                              className="flex-shrink-0 mr-1.5 h-5 w-5 text-gray-400"
+                              aria-hidden="true"
+                            />
+                            studio
+                          </dd>
+                          <dt className="sr-only">Account status</dt>
+                          <dd className="mt-3 flex items-center text-sm text-gray-500 font-medium sm:mr-6 sm:mt-0 capitalize">
+                            <CheckCircleIcon
+                              className="flex-shrink-0 mr-1.5 h-5 w-5 text-green-400"
+                              aria-hidden="true"
+                            />
+                            Verified account
+                          </dd>
+                        </dl>
+                      </div>
                     </div>
-                  </dl>
+                  </div>
+                  <div className="mt-6 flex space-x-3 md:mt-0 md:ml-4">
+                    <button
+                      type="button"
+                      className="inline-flex items-center px-4 py-2 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-cyan-500"
+                    >
+                      Add money
+                    </button>
+                    <button
+                      type="button"
+                      className="inline-flex items-center px-4 py-2 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-cyan-600 hover:bg-cyan-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-cyan-500"
+                    >
+                      Send money
+                    </button>
+                  </div>
                 </div>
+              </div>
+            </div>
+
+            <div className="mt-8">
+              <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+                <h2 className="text-lg leading-6 font-medium text-gray-900">Overview</h2>
+                <div className="mt-2 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
+                  {/* Card */}
+                  {cards.map((card) => (
+                    <div key={card.name} className="bg-white overflow-hidden shadow rounded-lg">
+                      <div className="p-5">
+                        <div className="flex items-center">
+                          <div className="flex-shrink-0">
+                            <card.icon className="h-6 w-6 text-gray-400" aria-hidden="true" />
+                          </div>
+                          <div className="ml-5 w-0 flex-1">
+                            <dl>
+                              <dt className="text-sm font-medium text-gray-500 truncate">{card.name}</dt>
+                              <dd>
+                                <div className="text-lg font-medium text-gray-900">{card.amount}</div>
+                              </dd>
+                            </dl>
+                          </div>
+                        </div>
+                      </div>
+                      <div className="bg-gray-50 px-5 py-3">
+                        <div className="text-sm">
+                          <a href={card.href} className="font-medium text-cyan-700 hover:text-cyan-900">
+                            View all
+                          </a>
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
             </div>
           </main>
           <Footer/>
