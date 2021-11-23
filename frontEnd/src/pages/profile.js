@@ -33,7 +33,7 @@ const tabs = [
     // { name: 'Recognition', href: '#', current: false },
   ]
 
-  const profile = {
+const profile = {
     name: 'Sunita Patil',
     imageUrl:
       'https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
@@ -56,7 +56,7 @@ const tabs = [
   
 const navigation = [
   { name: 'Home', href: '#', icon: HomeIcon, current: true },
-  { name: 'History', href: '#', icon: ClockIcon, current: false },
+  { name: 'History', href: '#/history', icon: ClockIcon, current: false },
   { name: 'Balances', href: '#', icon: ScaleIcon, current: false },
   { name: 'Profile', href: '#/profile', icon: CreditCardIcon, current: false },
   { name: 'Team', href: '#/team', icon: UserGroupIcon, current: false },

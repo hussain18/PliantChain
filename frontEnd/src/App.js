@@ -5,6 +5,7 @@ import Signin from './pages/signin';
 import Team from './pages/team';
 import Projects from './pages/project';
 import Profile from './pages/profile';
+import History from './pages/history';
 import {
   HashRouter as Router,
   Routes,
@@ -17,6 +18,7 @@ function App() {
       <Routes>     
         <Route path="/signin" element = {<Signin/>} />
         <Route path="/team" element = {<Team/>} /> 
+        <Route path="/history" element = {<History/>} /> 
         <Route path="/project" element = {<Projects/>} />   
         <Route path="/profile" element = {<Profile/>} /> 
         <Route path="/settings" element = {<Settings/>} /> 

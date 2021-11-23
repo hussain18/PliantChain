@@ -26,7 +26,7 @@ import {
 
 const navigation = [
   { name: 'Home', href: '#', icon: HomeIcon, current: true },
-  { name: 'History', href: '#', icon: ClockIcon, current: false },
+  { name: 'History', href: '#/history', icon: ClockIcon, current: false },
   { name: 'Balances', href: '#', icon: ScaleIcon, current: false },
   { name: 'Profile', href: '#/profile', icon: CreditCardIcon, current: false },
   { name: 'Team', href: '#/team', icon: UserGroupIcon, current: false },

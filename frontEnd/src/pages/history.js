@@ -6,9 +6,7 @@ import {
   ClockIcon,
   CogIcon,
   CreditCardIcon,
-  ChevronLeftIcon,
   DocumentReportIcon,
-  PlusSmIcon,
   HomeIcon,
   MenuAlt1Icon,
   QuestionMarkCircleIcon,
@@ -25,34 +23,12 @@ import {
   OfficeBuildingIcon,
   SearchIcon,
 } from '@heroicons/react/solid'
-const posts = [
-    {
-      title: 'Pliant Chain',
-      href: '#',
-      category: { name: 'BlockChain', href: '#' },
-      description:
-        'To develop a trustworthy and adoptable finance management system for organizations to avoid corruption',
-      date: 'Nov 11, 2021',
-      datetime: '2021-11-11',
-      imageUrl:
-        'https://images.unsplash.com/photo-1496128858413-b36217c2ce36?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1679&q=80',
-      readingTime: '3 min',
-      author: {
-        name: 'Graoup-5',
-        href: '#',
-        imageUrl:
-          'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
-      },
-    },
 
-
-  ]
-  
 const navigation = [
   { name: 'Home', href: '#', icon: HomeIcon, current: true },
   { name: 'History', href: '#/history', icon: ClockIcon, current: false },
   { name: 'Balances', href: '#', icon: ScaleIcon, current: false },
-  { name: 'Profile', href: '#', icon: CreditCardIcon, current: false },
+  { name: 'Profile', href: '#/profile', icon: CreditCardIcon, current: false },
   { name: 'Team', href: '#/team', icon: UserGroupIcon, current: false },
   { name: 'Project', href: '#/project', icon: DocumentReportIcon, current: false },
 ]
@@ -88,7 +64,7 @@ function classNames(...classes) {
   return classes.filter(Boolean).join(' ')
 }
 
-export default function Projects() {
+export default function History() {
   const [sidebarOpen, setSidebarOpen] = useState(false)
 
   return (
@@ -324,7 +300,7 @@ export default function Projects() {
                       <Menu.Item>
                         {({ active }) => (
                           <a
-                            href="#"
+                            href="#/signin"
                             className={classNames(active ? 'bg-gray-100' : '', 'block px-4 py-2 text-sm text-gray-700')}
                           >
                             Logout
@@ -337,64 +313,209 @@ export default function Projects() {
               </div>
             </div>
           </div>
-          <main className="flex-1 flex overflow-hidden">
-            <div className="flex-1 flex flex-col overflow-y-auto xl:overflow-hidden">
-              {/* Breadcrumb */}
-              <div className="relative bg-gray-50 pt-16 pb-20 px-4 sm:px-6 lg:pt-24 lg:pb-28 lg:px-8">
-      <div className="absolute inset-0">
-        <div className="bg-white h-1/3 sm:h-2/3" />
-      </div>
-      <div className="relative max-w-7xl mx-auto">
-        <div className="text-center">
-          <h2 className="text-3xl tracking-tight font-extrabold text-gray-900 sm:text-4xl">Projects</h2>
-          <p className="mt-3 max-w-2xl mx-auto text-xl text-gray-500 sm:mt-4">
-            The projects created by you!
-          </p>
-        </div>
-        <div className="mt-12 max-w-lg mx-auto grid gap-5 lg:grid-cols-3 lg:max-w-none">
-          {posts.map((post) => (
-            <div key={post.title} className="flex flex-col rounded-lg shadow-lg overflow-hidden">
-              <div className="flex-shrink-0">
-                <img className="h-48 w-full object-cover" src={post.imageUrl} alt="" />
-              </div>
-              <div className="flex-1 bg-white p-6 flex flex-col justify-between">
-                <div className="flex-1">
-                  <p className="text-sm font-medium text-indigo-600">
-                    <a href={post.category.href} className="hover:underline">
-                      {post.category.name}
-                    </a>
-                  </p>
-                  <a href={post.href} className="block mt-2">
-                    <p className="text-xl font-semibold text-gray-900">{post.title}</p>
-                    <p className="mt-3 text-base text-gray-500">{post.description}</p>
-                  </a>
-                </div>
-                <div className="mt-6 flex items-center">
-                  <div className="flex-shrink-0">
-                    <a href={post.author.href}>
-                      <span className="sr-only">{post.author.name}</span>
-                      <img className="h-10 w-10 rounded-full" src={post.author.imageUrl} alt="" />
-                    </a>
-                  </div>
-                  <div className="ml-3">
-                    <p className="text-sm font-medium text-gray-900">
-                      <a href={post.author.href} className="hover:underline">
-                        {post.author.name}
-                      </a>
-                    </p>
-                    <div className="flex space-x-1 text-sm text-gray-500">
-                      <time dateTime={post.datetime}>{post.date}</time>
-                      <span aria-hidden="true">&middot;</span>
-                      <span>{post.readingTime} read</span>
+          <main className="flex-1 pb-8">
+            {/* Page header */}
+            <div className="bg-white shadow">
+              <div className="px-4 sm:px-6 lg:max-w-6xl lg:mx-auto lg:px-8">
+                <div className="py-6 md:flex md:items-center md:justify-between lg:border-t lg:border-gray-200">
+                  <div className="flex-1 min-w-0">
+                    {/* Profile */}
+                    <div className="flex items-center">
+                      <img
+                        className="hidden h-16 w-16 rounded-full sm:block"
+                        src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2.6&w=256&h=256&q=80"
+                        alt=""
+                      />
+                      <div>
+                        <div className="flex items-center">
+                          <img
+                            className="h-16 w-16 rounded-full sm:hidden"
+                            src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2.6&w=256&h=256&q=80"
+                            alt=""
+                          />
+                          <h1 className="ml-3 text-2xl font-bold leading-7 text-gray-900 sm:leading-9 sm:truncate">
+                            Hello, Sunita Patil
+                          </h1>
+                        </div>
+                        <dl className="mt-6 flex flex-col sm:ml-3 sm:mt-1 sm:flex-row sm:flex-wrap">
+                          <dt className="sr-only">Company</dt>
+                          <dd className="flex items-center text-sm text-gray-500 font-medium capitalize sm:mr-6">
+                            <OfficeBuildingIcon
+                              className="flex-shrink-0 mr-1.5 h-5 w-5 text-gray-400"
+                              aria-hidden="true"
+                            />
+                            studio
+                          </dd>
+                          <dt className="sr-only">Account status</dt>
+                          <dd className="mt-3 flex items-center text-sm text-gray-500 font-medium sm:mr-6 sm:mt-0 capitalize">
+                            <CheckCircleIcon
+                              className="flex-shrink-0 mr-1.5 h-5 w-5 text-green-400"
+                              aria-hidden="true"
+                            />
+                            Verified account
+                          </dd>
+                        </dl>
+                      </div>
                     </div>
+                  </div>
+                  <div className="mt-6 flex space-x-3 md:mt-0 md:ml-4">
+                    <button
+                      type="button"
+                      className="inline-flex items-center px-4 py-2 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-cyan-500"
+                    >
+                      Add money
+                    </button>
+                    <button
+                      type="button"
+                      className="inline-flex items-center px-4 py-2 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-cyan-600 hover:bg-cyan-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-cyan-500"
+                    >
+                      Send money
+                    </button>
                   </div>
                 </div>
               </div>
             </div>
-          ))}
-        </div>
-      </div>
-    </div>
+
+            <div className="mt-8">
+              <h2 className="max-w-6xl mx-auto mt-8 px-4 text-lg leading-6 font-medium text-gray-900 sm:px-6 lg:px-8">
+                Recent activity
+              </h2>
+
+              {/* Activity list (smallest breakpoint only) */}
+              <div className="shadow sm:hidden">
+                <ul role="list" className="mt-2 divide-y divide-gray-200 overflow-hidden shadow sm:hidden">
+                  {transactions.map((transaction) => (
+                    <li key={transaction.id}>
+                      <a href={transaction.href} className="block px-4 py-4 bg-white hover:bg-gray-50">
+                        <span className="flex items-center space-x-4">
+                          <span className="flex-1 flex space-x-2 truncate">
+                            <CashIcon className="flex-shrink-0 h-5 w-5 text-gray-400" aria-hidden="true" />
+                            <span className="flex flex-col text-gray-500 text-sm truncate">
+                              <span className="truncate">{transaction.name}</span>
+                              <span>
+                                <span className="text-gray-900 font-medium">{transaction.amount}</span>{' '}
+                                {transaction.currency}
+                              </span>
+                              <time dateTime={transaction.datetime}>{transaction.date}</time>
+                            </span>
+                          </span>
+                          <ChevronRightIcon className="flex-shrink-0 h-5 w-5 text-gray-400" aria-hidden="true" />
+                        </span>
+                      </a>
+                    </li>
+                  ))}
+                </ul>
+
+                <nav
+                  className="bg-white px-4 py-3 flex items-center justify-between border-t border-gray-200"
+                  aria-label="Pagination"
+                >
+                  <div className="flex-1 flex justify-between">
+                    <a
+                      href="#"
+                      className="relative inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:text-gray-500"
+                    >
+                      Previous
+                    </a>
+                    <a
+                      href="#"
+                      className="ml-3 relative inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:text-gray-500"
+                    >
+                      Next
+                    </a>
+                  </div>
+                </nav>
+              </div>
+
+              {/* Activity table (small breakpoint and up) */}
+              <div className="hidden sm:block">
+                <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+                  <div className="flex flex-col mt-2">
+                    <div className="align-middle min-w-full overflow-x-auto shadow overflow-hidden sm:rounded-lg">
+                      <table className="min-w-full divide-y divide-gray-200">
+                        <thead>
+                          <tr>
+                            <th className="px-6 py-3 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                              Transaction
+                            </th>
+                            <th className="px-6 py-3 bg-gray-50 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">
+                              Amount
+                            </th>
+                            <th className="hidden px-6 py-3 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider md:block">
+                              Status
+                            </th>
+                            <th className="px-6 py-3 bg-gray-50 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">
+                              Date
+                            </th>
+                          </tr>
+                        </thead>
+                        <tbody className="bg-white divide-y divide-gray-200">
+                          {transactions.map((transaction) => (
+                            <tr key={transaction.id} className="bg-white">
+                              <td className="max-w-0 w-full px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                                <div className="flex">
+                                  <a href={transaction.href} className="group inline-flex space-x-2 truncate text-sm">
+                                    <CashIcon
+                                      className="flex-shrink-0 h-5 w-5 text-gray-400 group-hover:text-gray-500"
+                                      aria-hidden="true"
+                                    />
+                                    <p className="text-gray-500 truncate group-hover:text-gray-900">
+                                      {transaction.name}
+                                    </p>
+                                  </a>
+                                </div>
+                              </td>
+                              <td className="px-6 py-4 text-right whitespace-nowrap text-sm text-gray-500">
+                                <span className="text-gray-900 font-medium">{transaction.amount} </span>
+                                {transaction.currency}
+                              </td>
+                              <td className="hidden px-6 py-4 whitespace-nowrap text-sm text-gray-500 md:block">
+                                <span
+                                  className={classNames(
+                                    statusStyles[transaction.status],
+                                    'inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium capitalize'
+                                  )}
+                                >
+                                  {transaction.status}
+                                </span>
+                              </td>
+                              <td className="px-6 py-4 text-right whitespace-nowrap text-sm text-gray-500">
+                                <time dateTime={transaction.datetime}>{transaction.date}</time>
+                              </td>
+                            </tr>
+                          ))}
+                        </tbody>
+                      </table>
+                      {/* Pagination */}
+                      <nav
+                        className="bg-white px-4 py-3 flex items-center justify-between border-t border-gray-200 sm:px-6"
+                        aria-label="Pagination"
+                      >
+                        <div className="hidden sm:block">
+                          <p className="text-sm text-gray-700">
+                            Showing <span className="font-medium">1</span> to <span className="font-medium">10</span> of{' '}
+                            <span className="font-medium">20</span> results
+                          </p>
+                        </div>
+                        <div className="flex-1 flex justify-between sm:justify-end">
+                          <a
+                            href="#"
+                            className="relative inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50"
+                          >
+                            Previous
+                          </a>
+                          <a
+                            href="#"
+                            className="ml-3 relative inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50"
+                          >
+                            Next
+                          </a>
+                        </div>
+                      </nav>
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
           </main>
           <Footer/>
