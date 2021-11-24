@@ -25,8 +25,8 @@ import {
 } from '@heroicons/react/solid'
 
 const navigation = [
-  { name: 'Home', href: '#', icon: HomeIcon, current: true },
-  { name: 'History', href: '#/history', icon: ClockIcon, current: false },
+  { name: 'Home', href: '#', icon: HomeIcon, current: false },
+  { name: 'History', href: '#/history', icon: ClockIcon, current: true },
   { name: 'Balances', href: '#/balances', icon: ScaleIcon, current: false },
   { name: 'Profile', href: '#/profile', icon: CreditCardIcon, current: false },
   { name: 'Team', href: '#/team', icon: UserGroupIcon, current: false },

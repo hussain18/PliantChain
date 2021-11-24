@@ -28,8 +28,8 @@ import {
 const posts = [
     {
       title: 'Pliant Chain',
-      href: '#',
-      category: { name: 'BlockChain', href: '#' },
+      href: '#/projectteam',
+      category: { name: 'BlockChain', href: '#/projectteam' },
       description:
         'To develop a trustworthy and adoptable finance management system for organizations to avoid corruption',
       date: 'Nov 11, 2021',
@@ -38,7 +38,7 @@ const posts = [
         'https://images.unsplash.com/photo-1496128858413-b36217c2ce36?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1679&q=80',
       readingTime: '3 min',
       author: {
-        name: 'Graoup-5',
+        name: 'Group-5',
         href: '#',
         imageUrl:
           'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
@@ -49,12 +49,12 @@ const posts = [
   ]
   
 const navigation = [
-  { name: 'Home', href: '#', icon: HomeIcon, current: true },
+  { name: 'Home', href: '#', icon: HomeIcon, current: false },
   { name: 'History', href: '#/history', icon: ClockIcon, current: false },
   { name: 'Balances', href: '#/balances', icon: ScaleIcon, current: false },
   { name: 'Profile', href: '#', icon: CreditCardIcon, current: false },
   { name: 'Team', href: '#/team', icon: UserGroupIcon, current: false },
-  { name: 'Project', href: '#/project', icon: DocumentReportIcon, current: false },
+  { name: 'Project', href: '#/project', icon: DocumentReportIcon, current: true },
 ]
 const secondaryNavigation = [
   { name: 'Settings', href: '#/settings', icon: CogIcon },
@@ -359,7 +359,7 @@ export default function Projects() {
               </div>
               <div className="flex-1 bg-white p-6 flex flex-col justify-between">
                 <div className="flex-1">
-                  <p className="text-sm font-medium text-indigo-600">
+                  <p className="text-sm font-medium text-cyan-600">
                     <a href={post.category.href} className="hover:underline">
                       {post.category.name}
                     </a>

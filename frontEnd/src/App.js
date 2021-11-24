@@ -7,6 +7,7 @@ import Projects from './pages/project';
 import Profile from './pages/profile';
 import History from './pages/history';
 import Balances from './pages/balances';
+import ProjectTeam from './pages/projectteam';
 import {
   HashRouter as Router,
   Routes,
@@ -23,7 +24,8 @@ function App() {
         <Route path="/balances" element = {<Balances/>} /> 
         <Route path="/project" element = {<Projects/>} />   
         <Route path="/profile" element = {<Profile/>} /> 
-        <Route path="/settings/balances" element = {<Settings/>} /> 
+        <Route path="/settings" element = {<Settings/>} /> 
+        <Route path="/projectteam" element = {<ProjectTeam/>} /> 
         <Route path="/" element = {<Dashboard/>} /> 
       </Routes>
     </Router>

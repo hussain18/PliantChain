@@ -74,15 +74,15 @@ const people = [
   ]
   
 const navigation = [
-  { name: 'Home', href: '#', icon: HomeIcon, current: true },
+  { name: 'Home', href: '#', icon: HomeIcon, current: false },
   { name: 'History', href: '#/history', icon: ClockIcon, current: false },
   { name: 'Balances', href: '#/balances', icon: ScaleIcon, current: false },
   { name: 'Profile', href: '#/profile', icon: CreditCardIcon, current: false },
-  { name: 'Team', href: '#/team', icon: UserGroupIcon, current: false },
+  { name: 'Team', href: '#/team', icon: UserGroupIcon, current: true },
   { name: 'Project', href: '#/project', icon: DocumentReportIcon, current: false },
 ]
 const secondaryNavigation = [
-  { name: 'Settings', href: '#/settings', icon: CogIcon },
+  { name: 'Settings', href: '#/settings', icon: CogIcon, current: true  },
   { name: 'Help', href: '#', icon: QuestionMarkCircleIcon },
   { name: 'Privacy', href: '#', icon: ShieldCheckIcon },
 ]
@@ -396,7 +396,7 @@ export default function Team() {
             type="email"
             name="email"
             id="email"
-            className="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md"
+            className="shadow-sm focus:ring-cyan-500 focus:border-cyan-500 block w-full sm:text-sm border-gray-300 rounded-md"
             placeholder="Enter an email"
           />
           <button
@@ -426,7 +426,7 @@ export default function Team() {
               <div className="flex-shrink-0">
                 <button
                   type="button"
-                  className="inline-flex items-center py-2 px-3 border border-transparent rounded-full bg-gray-100 hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                  className="inline-flex items-center py-2 px-3 border border-transparent rounded-full bg-gray-100 hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-cyan-500"
                 >
                   <PlusSmIcon className="-ml-1 mr-0.5 h-5 w-5 text-gray-400" aria-hidden="true" />
                   <span className="text-sm font-medium text-gray-900">
