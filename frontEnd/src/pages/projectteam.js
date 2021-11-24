@@ -30,7 +30,7 @@ const people = [
       name: 'Sunita Patil',
       handle: 'sunitapt',
       email: 'sunita.patil18@vit.edu',
-      role: 'Admin',
+      role: 'Front-end Developer',
       imageId: '1517841905240-472988babdf9',
       imageUrl:
         'https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
@@ -39,7 +39,7 @@ const people = [
       name: 'Talib Hussain',
       handle: 'hussain18',
       email: 'talib.hussain18@vit.edu',
-      role: 'Admin',
+      role: 'Back-end Developer',
       imageId: '1438761681033-6461ffad8d80',
       imageUrl:
         'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
@@ -48,25 +48,25 @@ const people = [
       name: 'Pradunya Maladhari',
       handle: 'pradunya07',
       email: 'pradunya.maladhari18@vit.edu',
-      role: 'Employee',
+      role: 'Back-end Developer',
       imageId: '1472099645785-5658abf4ff4e',
       imageUrl:
         'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
     },
-      {
-        name: 'Sagar Sikchi',
-        handle: 'SagarSikchi',
-        email: 'sagar.sikchi18@vit.edu',
-        role: 'Employee',
+    {
+        name: 'Tejas Kachare',
+        handle: 'tvk2012',
+        email: 'tejas.kachare18@vit.edu',
+        role: 'Front-end Developer',
         imageId: '1472099645785-5658abf4ff4e',
         imageUrl:
           'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
       },
       {
-        name: 'Tejas Kachare',
-        handle: 'tvk2012',
-        email: 'tejas.kachare18@vit.edu',
-        role: 'user',
+        name: 'Sagar Sikchi',
+        handle: 'SagarSikchi',
+        email: 'sagar.sikchi18@vit.edu',
+        role: 'Back-End Developer',
         imageId: '1472099645785-5658abf4ff4e',
         imageUrl:
           'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
@@ -382,7 +382,7 @@ export default function ProjectTeam() {
               d="M34 40h10v-4a6 6 0 00-10.712-3.714M34 40H14m20 0v-4a9.971 9.971 0 00-.712-3.714M14 40H4v-4a6 6 0 0110.713-3.714M14 40v-4c0-1.313.253-2.566.713-3.714m0 0A10.003 10.003 0 0124 26c4.21 0 7.813 2.602 9.288 6.286M30 14a6 6 0 11-12 0 6 6 0 0112 0zm12 6a4 4 0 11-8 0 4 4 0 018 0zm-28 0a4 4 0 11-8 0 4 4 0 018 0z"
             />
           </svg>
-          <h2 className="mt-2 text-lg font-medium text-gray-900">Project Team members</h2>
+          <h2 className="mt-2 text-lg font-medium text-gray-900">Add team members</h2>
           <p className="mt-1 text-sm text-gray-500">
             Add team members to your project. As the owner of this project, you can manage team
             member permissions.
@@ -396,14 +396,14 @@ export default function ProjectTeam() {
             type="email"
             name="email"
             id="email"
-            className="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md"
+            className="shadow-sm focus:ring-cyan-500 focus:border-cyan-500 block w-full sm:text-sm border-gray-300 rounded-md"
             placeholder="Enter an email"
           />
           <button
             type="submit"
             className="ml-4 flex-shrink-0 px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-cyan-600 hover:bg-cyan-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-cyan-500"
           >
-            Add
+            Send invite
           </button>
         </form>
       </div>
@@ -411,7 +411,7 @@ export default function ProjectTeam() {
         <h3 className="text-xs font-semibold text-gray-500 uppercase tracking-wide">
           Team members previously added to project
         </h3>
-        <ul role="list" className="mt-4 mb-24 border-t border-b border-gray-200 divide-y divide-gray-200">
+        <ul role="list" className="mt-4 border-t border-b border-gray-200 divide-y divide-gray-200">
           {people.map((person, personIdx) => (
             <li key={personIdx} className="py-4 flex items-center justify-between space-x-3">
               <div className="min-w-0 flex-1 flex items-center space-x-3">
@@ -423,77 +423,15 @@ export default function ProjectTeam() {
                   <p className="text-sm font-medium text-gray-500 truncate">{person.role}</p>
                 </div>
               </div>
-              <Menu as="div" className="relative inline-block text-left">
-      <div>
-        <Menu.Button className="inline-flex justify-center w-full rounded-md border border-gray-300 shadow-sm px-2 py-2 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-100 focus:ring-cyan-500">
-          
-          <ChevronDownIcon className="-mr-1 ml-2 h-5 w-5" aria-hidden="true" />
-        </Menu.Button>
-      </div>
-
-      <Transition
-        as={Fragment}
-        enter="transition ease-out duration-100"
-        enterFrom="transform opacity-0 scale-95"
-        enterTo="transform opacity-100 scale-100"
-        leave="transition ease-in duration-75"
-        leaveFrom="transform opacity-100 scale-100"
-        leaveTo="transform opacity-0 scale-95"
-      >
-        <Menu.Items className="origin-top-right absolute right-0 mt-2 w-56 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 focus:outline-none">
-            <div className="py-1">
-                  <Menu.Item>
-                    {({ active }) => (
-                    <a
-                    href="#"
-                    className={classNames(
-                    active ? 'bg-gray-100 text-gray-900' : 'text-gray-700',
-                    'block px-4 py-2 text-sm'
-                    )}
-                    >
-                    Admin-1 
-                  </a>
-                )}
-                </Menu.Item>
-                <Menu.Item>
-                    {({ active }) => (
-                    <a
-                      href="#"
-                      className={classNames(
-                      active ? 'bg-gray-100 text-gray-900' : 'text-gray-700',
-                      'block px-4 py-2 text-sm'
-                    )}
-                    >
-                    Employee-2
-                  </a>
-                )}
-                </Menu.Item>
-                <Menu.Item>
-                    {({ active }) => (
-                    <a
-                      href="#"
-                      className={classNames(
-                      active ? 'bg-gray-100 text-gray-900' : 'text-gray-700',
-                      'block px-4 py-2 text-sm'
-                      )}
-                    >
-                      User-3
-                    </a>
-                      )}
-                      </Menu.Item>
-                    </div>
-                  </Menu.Items>
-                </Transition>
-              </Menu>
-                <div className="flex-shrink-0">
+              <div className="flex-shrink-0">
                 <button
                   type="button"
                   className="inline-flex items-center py-2 px-3 border border-transparent rounded-full bg-gray-100 hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-cyan-500"
                 >
-                  
+                  <PlusSmIcon className="-ml-1 mr-0.5 h-5 w-5 text-gray-400" aria-hidden="true" />
                   <span className="text-sm font-medium text-gray-900">
                     {' '}
-                    Edit <span className="sr-only">{person.name}</span>{' '}
+                    Added <span className="sr-only">{person.name}</span>{' '}
                   </span>
                     </button>
                 </div>
