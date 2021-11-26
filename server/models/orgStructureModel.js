@@ -18,7 +18,7 @@ const orgStructureSchema = new Schema({
     unique: true,
   },
   authorities: {
-    type: Array,
+    type: Number,
     required: true,
   },
 });
