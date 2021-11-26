@@ -8,6 +8,8 @@ import Profile from './pages/profile';
 import History from './pages/history';
 import Balances from './pages/balances';
 import ProjectTeam from './pages/projectteam';
+import SignUp from './pages/signup';
+
 import {
   HashRouter as Router,
   Routes,
@@ -19,6 +21,7 @@ function App() {
     <Router>
       <Routes>     
         <Route path="/signin" element = {<Signin/>} />
+        <Route path="/signup" element = {<SignUp/>} />
         <Route path="/team" element = {<Team/>} /> 
         <Route path="/history" element = {<History/>} /> 
         <Route path="/balances" element = {<Balances/>} /> 
