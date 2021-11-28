@@ -5,7 +5,6 @@ const orgStructureSchema = new Schema({
   orgUsername: {
     type: String,
     required: true,
-    unique: true,
   },
   empUsername: {
     type: String,

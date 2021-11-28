@@ -83,16 +83,17 @@ router.post('/structure/project', authenticateToken, (req, res) => {
 router.post('/project', authenticateToken, (req, res) => {
   const username = req.user.name;
   const projectName = req.body.projectName;
-  const orgUsername = req.body.orgUsername;
-
-  if (username !== orgUsername) return res.sendStatus(400);
   isOrg(username)
     .then((conf) => {
       if (!conf) return res.sendStatus(400);
     })
-    .then(() => db.project.getProject(projectName))
+    .then(() => db.project.getProject(username, projectName))
     .then((project) => {
-      if (!project) return db.project.createProject(req.body);
+      if (!project)
+        db.project.createProject({
+          orgUsername: username,
+          projectName: projectName,
+        });
       return res.sendStatus(400);
     })
     .catch((err) => res.sendStatus(500));

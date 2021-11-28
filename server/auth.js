@@ -29,10 +29,10 @@ const authenticateToken = (req, res, next) => {
   try {
     if (!req.headers.authorization) return res.sendStatus(403);
 
-    // const authHeader = req.headers.authorization.split(' ')[1];
+    let authHeader = req.headers.authorization.split(' ');
 
-    // Note: Uncomment the following when using react
-    const authHeader = req.headers.authorization;
+    if (authHeader.length > 1) authHeader = authHeader[1];
+    else authHeader = authHeader[0];
 
     const token = authHeader;
     if (token == null) return res.sendStatus(401);
@@ -50,7 +50,8 @@ const authenticateToken = (req, res, next) => {
 
 // Create Tokens
 const createTokens = (user) => {
-  return jwt.sign(user, process.env.ACCESS_TOKEN_SECRET, { expiresIn: '100m' }); //NOTE: length of time is only for testing
+  return jwt.sign(user, process.env.ACCESS_TOKEN_SECRET); //NOTE: this is only for brownie test
+  // return jwt.sign(user, process.env.ACCESS_TOKEN_SECRET, { expiresIn: '100m' }); //NOTE: length of time is only for testing
 };
 
 module.exports = {

@@ -1,10 +1,12 @@
 // SPDX-License-Identifier: MIT
-pragma solidity ^0.8.0;
+pragma solidity ^0.6.0;
 
-import "@chainlink/contracts/src/v0.8/ChainlinkClient.sol";
+import "@chainlink/contracts/src/v0.6/ChainlinkClient.sol";
+import "./transactTokens.sol";
 
 contract ExternalAPIConsumer is ChainlinkClient {
     using Chainlink for Chainlink.Request;
+    TransactTokens public transactToken;
 
     uint256 public allInSystem;
     uint256 public isProject;
@@ -14,6 +16,14 @@ contract ExternalAPIConsumer is ChainlinkClient {
     address private oracle;
     uint256 private fee;
 
+    // Transaction data
+    address public sender;
+    address public receiver;
+    uint256 public amount;
+
+    // Test data
+    string public canBeDone;
+
     event requestFulfilled(bytes32 requestId, uint256 value);
 
     /**
@@ -21,15 +31,7 @@ contract ExternalAPIConsumer is ChainlinkClient {
      * NOTE: to use the contract you need to create your own node, bridge and jobs
      */
 
-    /**
-     * LOCAL_NODE JOB IDs:
-     *   1. allInSystem: 5787b0018e624c0fa81b36573cc766fa
-     *   2. isProject: 5c0a8996ef474b37874a59d511058829
-     *   3. senderAuthority: 3f0baa9f71ad49d59cb11aeab10686a7
-     *   4. receiverAuthority: 5136b192a71c476a90631dbb00a1201d
-     */
-
-    constructor(address _oracle) {
+    constructor(address _oracle) public {
         setPublicChainlinkToken();
         oracle = _oracle;
         fee = 0.1 * 10**18;
@@ -48,7 +50,7 @@ contract ExternalAPIConsumer is ChainlinkClient {
         Chainlink.Request memory request = buildChainlinkRequest(
             stringToBytes32(_jobId),
             address(this),
-            this.fulfillSenderAuthority.selector
+            this.fulfillAllInSystem.selector
         );
         request.add("orgAddress", _orgAddress);
         request.add("senderAddress", _senderAddress);
@@ -67,7 +69,7 @@ contract ExternalAPIConsumer is ChainlinkClient {
         Chainlink.Request memory request = buildChainlinkRequest(
             stringToBytes32(_jobId),
             address(this),
-            this.fulfillSenderAuthority.selector
+            this.fulfillIsProject.selector
         );
         request.add("orgAddress", _orgAddress);
         request.add("senderAddress", _senderAddress);
@@ -105,7 +107,7 @@ contract ExternalAPIConsumer is ChainlinkClient {
         Chainlink.Request memory request = buildChainlinkRequest(
             stringToBytes32(_jobId),
             address(this),
-            this.fulfillSenderAuthority.selector
+            this.fulfillReceiverAuthority.selector
         );
         request.add("orgAddress", _orgAddress);
         request.add("senderAddress", _senderAddress);
@@ -146,7 +148,54 @@ contract ExternalAPIConsumer is ChainlinkClient {
         uint256 _receiverAuthority
     ) public recordChainlinkFulfillment(_requestId) {
         receiverAuthority = _receiverAuthority;
+        canBeDone = "You got it!!";
         emit requestFulfilled(_requestId, receiverAuthority);
+    }
+
+    // Transaction function
+    function makeTransaction(
+        address _to,
+        string memory _jwtToken,
+        string memory _orgAddress,
+        uint256 _amount
+    ) public {
+        string memory senderAddress = toString(msg.sender);
+        string memory receiverAddress = toString(_to);
+
+        // Setting transacToken data
+        sender = msg.sender;
+        receiver = _to;
+        amount = _amount;
+
+        // Getting verification data from offchain database
+        requestAllInSystem(
+            _jwtToken,
+            "5787b0018e624c0fa81b36573cc766fa",
+            _orgAddress,
+            senderAddress,
+            receiverAddress
+        );
+        requestIsProject(
+            _jwtToken,
+            "5c0a8996ef474b37874a59d511058829",
+            _orgAddress,
+            senderAddress,
+            receiverAddress
+        );
+        requestSenderAuthority(
+            _jwtToken,
+            "j3f0baa9f71ad49d59cb11aeab10686a7",
+            _orgAddress,
+            senderAddress,
+            receiverAddress
+        );
+        requestReceiverAuthority(
+            _jwtToken,
+            "5136b192a71c476a90631dbb00a1201d",
+            _orgAddress,
+            senderAddress,
+            receiverAddress
+        );
     }
 
     // Helpers
@@ -163,5 +212,41 @@ contract ExternalAPIConsumer is ChainlinkClient {
         assembly {
             result := mload(add(source, 32))
         }
+    }
+
+    function toString(address account) public pure returns (string memory) {
+        return toString(abi.encodePacked(account));
+    }
+
+    function toString(uint256 value) public pure returns (string memory) {
+        return toString(abi.encodePacked(value));
+    }
+
+    function toString(bytes32 value) public pure returns (string memory) {
+        return toString(abi.encodePacked(value));
+    }
+
+    function toString(bytes memory data) public pure returns (string memory) {
+        bytes memory alphabet = "0123456789abcdef";
+
+        bytes memory str = new bytes(2 + data.length * 2);
+        str[0] = "0";
+        str[1] = "x";
+        for (uint256 i = 0; i < data.length; i++) {
+            str[2 + i * 2] = alphabet[uint256(uint8(data[i] >> 4))];
+            str[3 + i * 2] = alphabet[uint256(uint8(data[i] & 0x0f))];
+        }
+        return string(str);
+    }
+
+    function clearValues() public {
+        allInSystem = 0;
+        isProject = 0;
+        senderAuthority = 0;
+        receiverAuthority = 0;
+        sender = 0x0000000000000000000000000000000000000000;
+        receiver = 0x0000000000000000000000000000000000000000;
+        amount = 0;
+        canBeDone = "";
     }
 }
