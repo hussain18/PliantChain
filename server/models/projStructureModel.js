@@ -5,12 +5,10 @@ const projStructureSchema = new Schema({
   orgUsername: {
     type: String,
     required: true,
-    unique: true,
   },
   projectName: {
     type: String,
     required: true,
-    unique: true,
   },
   empUsername: {
     type: String,
@@ -23,7 +21,7 @@ const projStructureSchema = new Schema({
     unique: true,
   },
   authorities: {
-    type: Array,
+    type: Number,
     required: true,
   },
 });
