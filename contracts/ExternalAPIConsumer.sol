@@ -2,11 +2,11 @@
 pragma solidity ^0.6.0;
 
 import "@chainlink/contracts/src/v0.6/ChainlinkClient.sol";
-import "./transactTokens.sol";
+import "../interfaces/ERC20.sol";
 
 contract ExternalAPIConsumer is ChainlinkClient {
     using Chainlink for Chainlink.Request;
-    TransactTokens public transactToken;
+    IERC20 myToken = IERC20(0x9C6726F316dE9774b1168e0000efdc0F601c4dDF);
 
     uint256 public allInSystem;
     uint256 public isProject;
@@ -23,6 +23,7 @@ contract ExternalAPIConsumer is ChainlinkClient {
 
     // Test data
     string public canBeDone;
+    uint256 public balanceOfSender;
 
     event requestFulfilled(bytes32 requestId, uint256 value);
 
@@ -148,7 +149,7 @@ contract ExternalAPIConsumer is ChainlinkClient {
         uint256 _receiverAuthority
     ) public recordChainlinkFulfillment(_requestId) {
         receiverAuthority = _receiverAuthority;
-        canBeDone = "You got it!!";
+        sendTokens();
         emit requestFulfilled(_requestId, receiverAuthority);
     }
 
@@ -184,7 +185,7 @@ contract ExternalAPIConsumer is ChainlinkClient {
         );
         requestSenderAuthority(
             _jwtToken,
-            "j3f0baa9f71ad49d59cb11aeab10686a7",
+            "3f0baa9f71ad49d59cb11aeab10686a7",
             _orgAddress,
             senderAddress,
             receiverAddress
@@ -196,6 +197,30 @@ contract ExternalAPIConsumer is ChainlinkClient {
             senderAddress,
             receiverAddress
         );
+    }
+
+    // Validation functions
+    function authValidation() internal returns (bool) {
+        if (senderAuthority == 3 && receiverAuthority == 2) {
+            return true;
+        }
+        if (senderAuthority < receiverAuthority) {
+            return true;
+        } else return false;
+    }
+
+    //1. Approve address(this) to transfer tokens
+    function sendTokens() public payable {
+        uint256 tokenAmount = amount; //total
+        require(myToken.balanceOf(sender) >= tokenAmount, "Not enough Tokens");
+        require(authValidation(), "Invalid Authority transfer attempt");
+
+        uint256 allowance = myToken.allowance(sender, address(this));
+
+        require(allowance >= tokenAmount, "Not enough Tokens");
+
+        myToken.transferFrom(sender, receiver, tokenAmount);
+        //   emit TokensTransfer(amount, _to, tokenAmount, rate);
     }
 
     // Helpers
