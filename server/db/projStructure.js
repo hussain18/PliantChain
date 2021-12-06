@@ -62,6 +62,22 @@ const getStructure = async (orgUsername, empUsername, projectName) => {
   }
 };
 
+const empInStructure = async (orgUsername, empUsername) => {
+  try {
+    if (!orgUsername || !empUsername)
+      throw new Error('Some functions arguments are not passed');
+
+    const structure = await models.findOneModel(projStructureModel, {
+      orgUsername: orgUsername,
+      empUsername: empUsername,
+    });
+    return structure;
+  } catch (err) {
+    console.log('DB_GET_PROJECT_STRUCTURE_ERROR: ', err);
+    return { success: false };
+  }
+};
+
 const updateStructure = async (projectName, Data) => {
   try {
     if (!projectName) throw new Error("No project's username provided");
@@ -86,5 +102,6 @@ module.exports = {
   createProjStructure,
   updateStructure,
   getProjStructure,
+  empInStructure,
   getStructure,
 };
