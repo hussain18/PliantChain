@@ -2,7 +2,7 @@
 pragma solidity ^0.6.0;
 
 import "@chainlink/contracts/src/v0.6/ChainlinkClient.sol";
-import "../interfaces/ERC20.sol";
+import "./IERC20.sol";
 
 contract ExternalAPIConsumer is ChainlinkClient {
     using Chainlink for Chainlink.Request;
@@ -57,6 +57,7 @@ contract ExternalAPIConsumer is ChainlinkClient {
         request.add("senderAddress", _senderAddress);
         request.add("receiverAddress", _receiverAddress);
         request.add("jwtToken", _jwtToken);
+        request.add("jsonPath", "data,allInSystem");
         sendChainlinkRequestTo(oracle, request, fee);
     }
 
@@ -76,6 +77,7 @@ contract ExternalAPIConsumer is ChainlinkClient {
         request.add("senderAddress", _senderAddress);
         request.add("receiverAddress", _receiverAddress);
         request.add("jwtToken", _jwtToken);
+        request.add("jsonPath", "data,isProject");
         sendChainlinkRequestTo(oracle, request, fee);
     }
 
@@ -95,6 +97,7 @@ contract ExternalAPIConsumer is ChainlinkClient {
         request.add("senderAddress", _senderAddress);
         request.add("receiverAddress", _receiverAddress);
         request.add("jwtToken", _jwtToken);
+        request.add("jsonPath", "data,senderAuthority");
         sendChainlinkRequestTo(oracle, request, fee);
     }
 
@@ -114,6 +117,7 @@ contract ExternalAPIConsumer is ChainlinkClient {
         request.add("senderAddress", _senderAddress);
         request.add("receiverAddress", _receiverAddress);
         request.add("jwtToken", _jwtToken);
+        request.add("jsonPath", "data,receiverAuthority");
         sendChainlinkRequestTo(oracle, request, fee);
     }
 
@@ -158,6 +162,7 @@ contract ExternalAPIConsumer is ChainlinkClient {
         address _to,
         string memory _jwtToken,
         string memory _orgAddress,
+        string memory _jobId,
         uint256 _amount
     ) public {
         string memory senderAddress = toString(msg.sender);
@@ -171,28 +176,28 @@ contract ExternalAPIConsumer is ChainlinkClient {
         // Getting verification data from offchain database
         requestAllInSystem(
             _jwtToken,
-            "5787b0018e624c0fa81b36573cc766fa",
+            _jobId,
             _orgAddress,
             senderAddress,
             receiverAddress
         );
         requestIsProject(
             _jwtToken,
-            "5c0a8996ef474b37874a59d511058829",
+            _jobId,
             _orgAddress,
             senderAddress,
             receiverAddress
         );
         requestSenderAuthority(
             _jwtToken,
-            "3f0baa9f71ad49d59cb11aeab10686a7",
+            _jobId,
             _orgAddress,
             senderAddress,
             receiverAddress
         );
         requestReceiverAuthority(
             _jwtToken,
-            "5136b192a71c476a90631dbb00a1201d",
+            _jobId,
             _orgAddress,
             senderAddress,
             receiverAddress
@@ -217,10 +222,10 @@ contract ExternalAPIConsumer is ChainlinkClient {
 
         uint256 allowance = myToken.allowance(sender, address(this));
 
-        require(allowance >= tokenAmount, "Not enough Tokens");
+        require(allowance >= tokenAmount, "Not Enough Tokens Allowance");
 
         myToken.transferFrom(sender, receiver, tokenAmount);
-        //   emit TokensTransfer(amount, _to, tokenAmount, rate);
+        clearValues();
     }
 
     // Helpers
