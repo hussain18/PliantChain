@@ -23,20 +23,16 @@ dotenv: .env
 networks:
   default: rinkeby
 
-  # Here we are testing only in rinkeby testnet but you can set it for any other one
+  # Here we are testing only in rinkeby testnet because the node runs on 
+  # on the net, but you can set it for any other net that your chainlink node is on.
   rinkeby:
-    # vrf_coordinator: '0xb3dCcb4Cf7a26f6cf6B120Cf5A73875B7BBc655B'
     link_token: '0x01be23585060835e02b77ef475b0cc51aa1e0709'
-    # keyhash: '0x2ed0feb3e7fd2022120aa84fab1945545a9f2ffc9076fd6156fa96eaff4c1311'
     fee: 100000000000000000
 
     # NOTE: Set your own oracle address and job IDs here
-    # Bellow address are from my local chainlink node jobs so it can't be used anywhere else
+    # Bellow address are from a local chainlink node jobs so it can't be used anywhere else
     oracle: '0xec5368C5C258412B8518AEeb6966FAE07d0fc545'
-    all_in_system_jobId: '5787b0018e624c0fa81b36573cc766fa'
-    is_project_jobId: '5c0a8996ef474b37874a59d511058829'
-    sender_auth_jobId: '3f0baa9f71ad49d59cb11aeab10686a7'
-    receiver_auth_jobId: '5136b192a71c476a90631dbb00a1201d'
+    jobId: '00c8c391add747b286654a03e37b24bb'
 
     # Change to True if you have an Etherscan API key and want to verify
     verify: False

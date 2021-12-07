@@ -1,4 +1,4 @@
-![alt text](./PlianChain.jpeg "Logo Title")
+![alt text](./img/PlianChain.jpeg "Logo Title")
 
 # Prerequisites:
 To work with this project you will need to have the following softwares installed
