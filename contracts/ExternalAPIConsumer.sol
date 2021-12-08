@@ -1,12 +1,11 @@
 // SPDX-License-Identifier: MIT
-pragma solidity ^0.6.0;
+pragma solidity ^0.8.0;
 
-import "@chainlink/contracts/src/v0.6/ChainlinkClient.sol";
-import "./IERC20.sol";
+import "@chainlink/contracts/src/v0.8/ChainlinkClient.sol";
+import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 
 contract ExternalAPIConsumer is ChainlinkClient {
     using Chainlink for Chainlink.Request;
-    IERC20 myToken = IERC20(0x9C6726F316dE9774b1168e0000efdc0F601c4dDF);
 
     uint256 public allInSystem;
     uint256 public isProject;
@@ -20,10 +19,7 @@ contract ExternalAPIConsumer is ChainlinkClient {
     address public sender;
     address public receiver;
     uint256 public amount;
-
-    // Test data
-    string public canBeDone;
-    uint256 public balanceOfSender;
+    address public tokenAddress;
 
     event requestFulfilled(bytes32 requestId, uint256 value);
 
@@ -32,10 +28,10 @@ contract ExternalAPIConsumer is ChainlinkClient {
      * NOTE: to use the contract you need to create your own node, bridge and jobs
      */
 
-    constructor(address _oracle) public {
+    constructor(address _oracle, uint256 _fee) public {
         setPublicChainlinkToken();
         oracle = _oracle;
-        fee = 0.1 * 10**18;
+        fee = _fee;
     }
 
     /**
@@ -129,6 +125,7 @@ contract ExternalAPIConsumer is ChainlinkClient {
         recordChainlinkFulfillment(_requestId)
     {
         allInSystem = _allInSystem;
+        if (allInSystem > 0) sendTokens();
         emit requestFulfilled(_requestId, allInSystem);
     }
 
@@ -153,13 +150,13 @@ contract ExternalAPIConsumer is ChainlinkClient {
         uint256 _receiverAuthority
     ) public recordChainlinkFulfillment(_requestId) {
         receiverAuthority = _receiverAuthority;
-        sendTokens();
         emit requestFulfilled(_requestId, receiverAuthority);
     }
 
     // Transaction function
     function makeTransaction(
         address _to,
+        address _tokenAddress,
         string memory _jwtToken,
         string memory _orgAddress,
         string memory _jobId,
@@ -172,15 +169,9 @@ contract ExternalAPIConsumer is ChainlinkClient {
         sender = msg.sender;
         receiver = _to;
         amount = _amount;
+        tokenAddress = _tokenAddress;
 
         // Getting verification data from offchain database
-        requestAllInSystem(
-            _jwtToken,
-            _jobId,
-            _orgAddress,
-            senderAddress,
-            receiverAddress
-        );
         requestIsProject(
             _jwtToken,
             _jobId,
@@ -202,6 +193,13 @@ contract ExternalAPIConsumer is ChainlinkClient {
             senderAddress,
             receiverAddress
         );
+        requestAllInSystem(
+            _jwtToken,
+            _jobId,
+            _orgAddress,
+            senderAddress,
+            receiverAddress
+        );
     }
 
     // Validation functions
@@ -217,15 +215,21 @@ contract ExternalAPIConsumer is ChainlinkClient {
     //1. Approve address(this) to transfer tokens
     function sendTokens() public payable {
         uint256 tokenAmount = amount; //total
-        require(myToken.balanceOf(sender) >= tokenAmount, "Not enough Tokens");
-        require(authValidation(), "Invalid Authority transfer attempt");
+        if (tokenAmount > 0) {
+            IERC20 myToken = IERC20(tokenAddress);
+            require(
+                myToken.balanceOf(sender) >= tokenAmount,
+                "Not enough Tokens"
+            );
+            require(authValidation(), "Invalid Authority transfer attempt");
 
-        uint256 allowance = myToken.allowance(sender, address(this));
+            uint256 allowance = myToken.allowance(sender, address(this));
 
-        require(allowance >= tokenAmount, "Not Enough Tokens Allowance");
+            require(allowance >= tokenAmount, "Not Enough Tokens Allowance");
 
-        myToken.transferFrom(sender, receiver, tokenAmount);
-        clearValues();
+            myToken.transferFrom(sender, receiver, tokenAmount);
+            clearValues();
+        }
     }
 
     // Helpers
@@ -277,6 +281,5 @@ contract ExternalAPIConsumer is ChainlinkClient {
         sender = 0x0000000000000000000000000000000000000000;
         receiver = 0x0000000000000000000000000000000000000000;
         amount = 0;
-        canBeDone = "";
     }
 }

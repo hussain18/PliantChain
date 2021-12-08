@@ -11,7 +11,6 @@ def deploy_api_consumer():
     fee = config["networks"][network.show_active()]["fee"]
     account = get_account()
     oracle = get_contract("oracle").address
-    print(oracle)
     api_consumer = ExternalAPIConsumer.deploy(
         oracle,
         fee,

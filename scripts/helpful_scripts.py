@@ -19,6 +19,22 @@ LOCAL_BLOCKCHAIN_ENVIRONMENTS = NON_FORKED_LOCAL_BLOCKCHAIN_ENVIRONMENTS + [
     "matic-fork",
 ]
 
+USER_ADDRESSES = {
+    'org': config['user_addresses']['org'].upper(),
+    'user1': config['user_addresses']['user1'].upper(),
+    'user2': config['user_addresses']['user2'].upper(),
+    'user3': config['user_addresses']['user3'].upper(),
+    'user4': config['user_addresses']['user4'].upper(),
+}
+
+USER_LOGIN_TOKENS = {
+    'org': config['user_login_tokens']['org'],
+    'user1': config['user_login_tokens']['user1'],
+    'user2': config['user_login_tokens']['user2'],
+    'user3': config['user_login_tokens']['user3'],
+    'user4': config['user_login_tokens']['user4'],
+}
+
 contract_to_mock = {
     "link_token": LinkToken,
     "eth_usd_price_feed": MockV3Aggregator,
