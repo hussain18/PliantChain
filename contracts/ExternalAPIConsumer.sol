@@ -225,7 +225,7 @@ contract ExternalAPIConsumer is ChainlinkClient {
 
             uint256 allowance = myToken.allowance(sender, address(this));
 
-            require(allowance >= tokenAmount, "Not Enough Tokens Allowance");
+            require(allowance >= tokenAmount, "Not Enough Token Allowance");
 
             myToken.transferFrom(sender, receiver, tokenAmount);
             clearValues();

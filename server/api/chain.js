@@ -20,8 +20,6 @@ const reqCallback = async (req, res) => {
   if (!orgAddress || !senderAddress || !receiverAddress)
     return res.json(emptyResponse);
 
-  console.log('tst_1'); //test...
-
   const org = await db.user.getUserByAddress(orgAddress);
   const sender = await db.user.getUserByAddress(senderAddress);
   const receiver = await db.user.getUserByAddress(receiverAddress);
@@ -94,9 +92,18 @@ const reqCallback = async (req, res) => {
     receiver.username
   );
 
+  if (senderInOrg && receiverInProject) {
+    return res.json({
+      allInSystem: 1,
+      isProject: 1,
+      senderAuthority: senderInOrg.authorities,
+      receiverAuthority: receiverInProject.authorities,
+    });
+  }
+
   if (!senderInOrg || !receiverInOrg) return res.json(emptyResponse);
 
-  return res.send({
+  return res.json({
     allInSystem: 1,
     isProject: 0,
     senderAuthority: senderInOrg.authorities,
