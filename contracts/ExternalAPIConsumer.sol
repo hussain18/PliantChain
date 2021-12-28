@@ -204,6 +204,8 @@ contract ExternalAPIConsumer is ChainlinkClient {
 
     // Validation functions
     function authValidation() internal returns (bool) {
+        require(senderAuthority > 0);
+        require(recieverAuthority > 0);
         if (senderAuthority == 3 && receiverAuthority == 2) {
             return true;
         }
