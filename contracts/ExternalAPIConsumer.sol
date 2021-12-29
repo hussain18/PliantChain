@@ -7,19 +7,19 @@ import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 contract ExternalAPIConsumer is ChainlinkClient {
     using Chainlink for Chainlink.Request;
 
-    uint256 public allInSystem;
-    uint256 public isProject;
-    uint256 public senderAuthority;
-    uint256 public receiverAuthority;
+    uint256 private allInSystem;
+    uint256 private isProject;
+    uint256 private senderAuthority;
+    uint256 private receiverAuthority;
 
     address private oracle;
     uint256 private fee;
 
     // Transaction data
-    address public sender;
-    address public receiver;
-    uint256 public amount;
-    address public tokenAddress;
+    address private sender;
+    address private receiver;
+    uint256 private amount;
+    address private tokenAddress;
 
     event requestFulfilled(bytes32 requestId, uint256 value);
 
@@ -121,7 +121,7 @@ contract ExternalAPIConsumer is ChainlinkClient {
      * Callback functions
      */
     function fulfillAllInSystem(bytes32 _requestId, uint256 _allInSystem)
-        public
+        external
         recordChainlinkFulfillment(_requestId)
     {
         allInSystem = _allInSystem;
@@ -130,7 +130,7 @@ contract ExternalAPIConsumer is ChainlinkClient {
     }
 
     function fulfillIsProject(bytes32 _requestId, uint256 _isProject)
-        public
+        external
         recordChainlinkFulfillment(_requestId)
     {
         isProject = _isProject;
@@ -140,7 +140,7 @@ contract ExternalAPIConsumer is ChainlinkClient {
     function fulfillSenderAuthority(
         bytes32 _requestId,
         uint256 _senderAuthority
-    ) public recordChainlinkFulfillment(_requestId) {
+    ) external recordChainlinkFulfillment(_requestId) {
         senderAuthority = _senderAuthority;
         emit requestFulfilled(_requestId, senderAuthority);
     }
@@ -148,7 +148,7 @@ contract ExternalAPIConsumer is ChainlinkClient {
     function fulfillReceiverAuthority(
         bytes32 _requestId,
         uint256 _receiverAuthority
-    ) public recordChainlinkFulfillment(_requestId) {
+    ) external recordChainlinkFulfillment(_requestId) {
         receiverAuthority = _receiverAuthority;
         emit requestFulfilled(_requestId, receiverAuthority);
     }
@@ -161,7 +161,7 @@ contract ExternalAPIConsumer is ChainlinkClient {
         string memory _orgAddress,
         string memory _jobId,
         uint256 _amount
-    ) public {
+    ) external {
         string memory senderAddress = toString(msg.sender);
         string memory receiverAddress = toString(_to);
 
@@ -234,7 +234,7 @@ contract ExternalAPIConsumer is ChainlinkClient {
 
     // Helpers
     function stringToBytes32(string memory source)
-        public
+        internal
         pure
         returns (bytes32 result)
     {
@@ -248,19 +248,19 @@ contract ExternalAPIConsumer is ChainlinkClient {
         }
     }
 
-    function toString(address account) public pure returns (string memory) {
+    function toString(address account) internal pure returns (string memory) {
         return toString(abi.encodePacked(account));
     }
 
-    function toString(uint256 value) public pure returns (string memory) {
+    function toString(uint256 value) internal pure returns (string memory) {
         return toString(abi.encodePacked(value));
     }
 
-    function toString(bytes32 value) public pure returns (string memory) {
+    function toString(bytes32 value) internal pure returns (string memory) {
         return toString(abi.encodePacked(value));
     }
 
-    function toString(bytes memory data) public pure returns (string memory) {
+    function toString(bytes memory data) internal pure returns (string memory) {
         bytes memory alphabet = "0123456789abcdef";
 
         bytes memory str = new bytes(2 + data.length * 2);
@@ -273,7 +273,7 @@ contract ExternalAPIConsumer is ChainlinkClient {
         return string(str);
     }
 
-    function clearValues() public {
+    function clearValues() private {
         allInSystem = 0;
         isProject = 0;
         senderAuthority = 0;
