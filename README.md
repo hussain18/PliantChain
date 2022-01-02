@@ -26,7 +26,7 @@ npm start
 ## Front-End
 To start front-end run:
 ```bash
-cd front-end
+cd frontEnd
 npm install
 npm start   
 ```
