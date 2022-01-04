@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { signup, getAuth } from '../api';
+import { signup, getAuth, removeAuth } from '../api';
 
 export default function SignUp() {
   const [userData, setUserData] = useState({
@@ -18,6 +18,7 @@ export default function SignUp() {
   };
 
   const handleSubmit = async () => {
+    if (getAuth()) removeAuth(); // Log out prev logged in user
     await signup(userData);
     if (!getAuth()) {
       console.log('st went wrong check your data and try again');
