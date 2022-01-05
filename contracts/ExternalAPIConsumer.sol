@@ -125,7 +125,9 @@ contract ExternalAPIConsumer is ChainlinkClient {
         recordChainlinkFulfillment(_requestId)
     {
         allInSystem = _allInSystem;
-        if (allInSystem > 0) sendTokens();
+        require(allInSystem > 0, "Not all in system");
+        require(authValidation(), "Invalid Authority transfer attempt");
+        sendTokens();
         emit requestFulfilled(_requestId, allInSystem);
     }
 
@@ -221,7 +223,6 @@ contract ExternalAPIConsumer is ChainlinkClient {
                 myToken.balanceOf(sender) >= tokenAmount,
                 "Not enough Tokens"
             );
-            require(authValidation(), "Invalid Authority transfer attempt");
 
             uint256 allowance = myToken.allowance(sender, address(this));
 
