@@ -10,26 +10,22 @@ import Balances from './pages/balances';
 import ProjectTeam from './pages/projectteam';
 import SignUp from './pages/signup';
 
-import {
-  HashRouter as Router,
-  Routes,
-  Route,
-} from "react-router-dom";
+import { HashRouter as Router, Routes, Route } from 'react-router-dom';
 
 function App() {
   return (
     <Router>
-      <Routes>     
-        <Route path="/signin" element = {<Signin/>} />
-        <Route path="/signup" element = {<SignUp/>} />
-        <Route path="/team" element = {<Team/>} /> 
-        <Route path="/history" element = {<History/>} /> 
-        <Route path="/balances" element = {<Balances/>} /> 
-        <Route path="/project" element = {<Projects/>} />   
-        <Route path="/profile" element = {<Profile/>} /> 
-        <Route path="/settings" element = {<Settings/>} /> 
-        <Route path="/projectteam" element = {<ProjectTeam/>} /> 
-        <Route path="/" element = {<Dashboard/>} /> 
+      <Routes>
+        <Route path='/signin' element={<Signin />} />
+        <Route path='/signup' element={<SignUp />} />
+        <Route path='/team' element={<Team />} />
+        <Route path='/history' element={<History />} />
+        <Route path='/balances' element={<Balances />} />
+        <Route path='/project' element={<Projects />} />
+        <Route path='/profile' element={<Profile />} />
+        <Route path='/settings' element={<Settings />} />
+        <Route path='/project/:projectName' element={<ProjectTeam />} />
+        <Route path='/' element={<Dashboard />} />
       </Routes>
     </Router>
   );

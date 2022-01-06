@@ -1,6 +1,8 @@
-import { Fragment, useState } from 'react';
+import { Fragment, useEffect, useState } from 'react';
 import Footer from '../components/footer';
 import { Dialog, Menu, Transition } from '@headlessui/react';
+import { authRequest, GET, getAuth, POST } from '../api';
+import { useParams } from 'react-router-dom';
 import {
   BellIcon,
   ClockIcon,
@@ -16,6 +18,7 @@ import {
   ShieldCheckIcon,
   UserGroupIcon,
   XIcon,
+  UserIcon,
 } from '@heroicons/react/outline';
 import {
   CashIcon,
@@ -25,53 +28,14 @@ import {
   OfficeBuildingIcon,
   SearchIcon,
 } from '@heroicons/react/solid';
-const people = [
-  {
-    name: 'Sunita Patil',
-    handle: 'sunitapt',
-    email: 'sunita.patil18@vit.edu',
-    role: 'Front-end Developer',
-    imageId: '1517841905240-472988babdf9',
-    imageUrl:
-      'https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
-  },
-  {
-    name: 'Talib Hussain',
-    handle: 'hussain18',
-    email: 'talib.hussain18@vit.edu',
-    role: 'Back-end Developer',
-    imageId: '1438761681033-6461ffad8d80',
-    imageUrl:
-      'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
-  },
-  {
-    name: 'Pradunya Maladhari',
-    handle: 'pradunya07',
-    email: 'pradunya.maladhari18@vit.edu',
-    role: 'Back-end Developer',
-    imageId: '1472099645785-5658abf4ff4e',
-    imageUrl:
-      'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
-  },
-  {
-    name: 'Tejas Kachare',
-    handle: 'tvk2012',
-    email: 'tejas.kachare18@vit.edu',
-    role: 'Front-end Developer',
-    imageId: '1472099645785-5658abf4ff4e',
-    imageUrl:
-      'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
-  },
-  {
-    name: 'Sagar Sikchi',
-    handle: 'SagarSikchi',
-    email: 'sagar.sikchi18@vit.edu',
-    role: 'Back-End Developer',
-    imageId: '1472099645785-5658abf4ff4e',
-    imageUrl:
-      'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
-  },
-];
+
+const userIcon = require('../img/person_icon.png').default;
+const NUMBER_TO_AUTH = {
+  1: 'Organization',
+  2: 'Finance Manager',
+  3: 'Employee',
+  0: 'Terminated',
+};
 
 const navigation = [
   { name: 'Home', href: '#', icon: HomeIcon, current: false },
@@ -118,10 +82,130 @@ function classNames(...classes) {
   return classes.filter(Boolean).join(' ');
 }
 
+function EditMenu(props) {
+  return (
+    <Menu as='div' className='relative inline-block text-left'>
+      <div>
+        <Menu.Button className='inline-flex justify-center w-full rounded-md border border-gray-300 shadow-sm px-2 py-2 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-100 focus:ring-cyan-500'>
+          Edit
+          <ChevronDownIcon className='-mr-1 ml-2 h-5 w-5' aria-hidden='true' />
+        </Menu.Button>
+      </div>
+
+      <Transition
+        as={Fragment}
+        enter='transition ease-out duration-100'
+        enterFrom='transform opacity-0 scale-95'
+        enterTo='transform opacity-100 scale-100'
+        leave='transition ease-in duration-75'
+        leaveFrom='transform opacity-100 scale-100'
+        leaveTo='transform opacity-0 scale-95'
+      >
+        <Menu.Items className='origin-top-right absolute right-0 mt-2 w-56 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 focus:outline-none'>
+          <div className='py-1'>
+            <Menu.Item>
+              {({ active }) => (
+                <button
+                  onClick={() => props.onSubmit(2)}
+                  className={classNames(
+                    active ? 'bg-gray-100 text-gray-900' : 'text-gray-700',
+                    'block px-4 py-2 text-sm'
+                  )}
+                >
+                  Finance Manager
+                </button>
+              )}
+            </Menu.Item>
+            <Menu.Item>
+              {({ active }) => (
+                <button
+                  onClick={() => props.onSubmit(3)}
+                  className={classNames(
+                    active ? 'bg-gray-100 text-gray-900' : 'text-gray-700',
+                    'block px-4 py-2 text-sm'
+                  )}
+                >
+                  Employee
+                </button>
+              )}
+            </Menu.Item>
+            <Menu.Item>
+              {({ active }) => (
+                <button
+                  onClick={() => props.onSubmit(0)}
+                  className={classNames(
+                    active ? 'bg-gray-100 text-gray-900' : 'text-gray-700',
+                    'block px-4 py-2 text-sm'
+                  )}
+                >
+                  Terminate
+                </button>
+              )}
+            </Menu.Item>
+          </div>
+        </Menu.Items>
+      </Transition>
+    </Menu>
+  );
+}
+
 export default function ProjectTeam() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [projectStructure, setProjectStructure] = useState(null);
+  const [dataLoaded, setDataLoaded] = useState(false);
+  const [changeSubmitted, setChangeSubmitted] = useState(false);
+  const [addEmployeeData, setAddEmployeeData] = useState({
+    empUsername: '',
+    authorities: 3,
+  });
+  let projectName = useParams().projectName;
 
-  return (
+  useEffect(() => {
+    getStructureData();
+  }, [!dataLoaded]);
+
+  const getStructureData = async () => {
+    if (!getAuth) return; // TODO: redirect to landing/signIn page with flash message (not signed in)
+
+    const user = await authRequest('/user', GET);
+    if (user.type !== '1') return; //TODO: redirect to profile page with flash message (only organizations are allowed)
+
+    const projectInfo = await authRequest(`/project/${projectName}`, GET);
+    setProjectStructure(projectInfo.structure);
+    setDataLoaded(true);
+  };
+
+  const updateEmployeeInfo = async (authorities, empUsername) => {
+    setChangeSubmitted(true);
+    const organization = projectStructure[0].orgUsername;
+    const project = projectStructure[0].projectName;
+    const newEmployee = {
+      orgUsername: organization,
+      projectName: project,
+      empUsername: empUsername,
+      authorities: authorities,
+    };
+
+    await authRequest('/structure/project', POST, newEmployee);
+    setChangeSubmitted(false);
+    window.location.reload();
+  };
+
+  const handleAddEmployeeChange = async (event) => {
+    setChangeSubmitted(true);
+    const changedData = { ...addEmployeeData };
+    changedData[event.target.name] = event.target.value;
+    setAddEmployeeData(changedData);
+  };
+
+  const addNewEmployee = () => {
+    updateEmployeeInfo(
+      addEmployeeData.authorities,
+      addEmployeeData.empUsername
+    );
+  };
+
+  return dataLoaded ? (
     <>
       <div className='min-h-full'>
         <Transition.Root show={sidebarOpen} as={Fragment}>
@@ -427,41 +511,58 @@ export default function ProjectTeam() {
                       />
                     </svg>
                     <h2 className='mt-2 text-lg font-medium text-gray-900'>
-                      Add team members
+                      Project Members
                     </h2>
                     <p className='mt-1 text-sm text-gray-500'>
-                      Add team members to your project. As the owner of this
-                      project, you can manage team member permissions.
+                      Add users to your project. As the owner of this project,
+                      you can manage team member permissions.
                     </p>
                   </div>
-                  <form action='#' className='mt-6 flex'>
+                  <div className='mt-6 flex-1 items-end space-x-1 space-y-1 sm:flex'>
                     <label htmlFor='email' className='sr-only'>
-                      Email address
+                      Username
                     </label>
                     <input
-                      type='email'
-                      name='email'
+                      type='text'
+                      name='empUsername'
                       id='email'
+                      required={true}
+                      value={addEmployeeData.empUsername}
+                      onChange={handleAddEmployeeChange}
                       className='shadow-sm focus:ring-cyan-500 focus:border-cyan-500 block w-full sm:text-sm border-gray-300 rounded-md'
-                      placeholder='Enter an email'
+                      placeholder='Enter a username'
                     />
+                    <select
+                      type='text'
+                      name='authorities'
+                      id='email'
+                      value={addEmployeeData.authorities}
+                      onChange={handleAddEmployeeChange}
+                      className='shadow-sm focus:ring-cyan-500 focus:border-cyan-500 block w-full sm:text-sm border-gray-300 rounded-md'
+                    >
+                      <option value={3}>Employee</option>
+                      <option value={2}>Finance Manager</option>
+                    </select>
                     <button
                       type='submit'
+                      onClick={() => addNewEmployee()}
                       className='ml-4 flex-shrink-0 px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-cyan-600 hover:bg-cyan-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-cyan-500'
                     >
-                      Send invite
+                      Add
                     </button>
-                  </form>
+                  </div>
                 </div>
+                {changeSubmitted ? <div>Working...</div> : null}{' '}
+                {/*TODO: Style working part */}
                 <div className='mt-10'>
                   <h3 className='text-xs font-semibold text-gray-500 uppercase tracking-wide'>
-                    Team members previously added to project
+                    Members added to project
                   </h3>
                   <ul
                     role='list'
                     className='mt-4 border-t border-b border-gray-200 divide-y divide-gray-200'
                   >
-                    {people.map((person, personIdx) => (
+                    {projectStructure.map((person, personIdx) => (
                       <li
                         key={personIdx}
                         className='py-4 flex items-center justify-between space-x-3'
@@ -470,36 +571,31 @@ export default function ProjectTeam() {
                           <div className='flex-shrink-0'>
                             <img
                               className='h-10 w-10 rounded-full'
-                              src={person.imageUrl}
-                              alt=''
+                              src={userIcon}
+                              alt='a person icon'
                             />
                           </div>
                           <div className='min-w-0 flex-1'>
                             <p className='text-sm font-medium text-gray-900 truncate'>
-                              {person.name}
+                              {person.empUsername}
                             </p>
                             <p className='text-sm font-medium text-gray-500 truncate'>
-                              {person.role}
+                              {NUMBER_TO_AUTH[person.authorities]}
+                            </p>
+                            <p className='text-sm font-medium text-gray-500 truncate'>
+                              {person.empAccountAddress}
                             </p>
                           </div>
                         </div>
                         <div className='flex-shrink-0'>
-                          <button
-                            type='button'
-                            className='inline-flex items-center py-2 px-3 border border-transparent rounded-full bg-gray-100 hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-cyan-500'
-                          >
-                            <PlusSmIcon
-                              className='-ml-1 mr-0.5 h-5 w-5 text-gray-400'
-                              aria-hidden='true'
-                            />
-                            <span className='text-sm font-medium text-gray-900'>
-                              {' '}
-                              Added{' '}
-                              <span className='sr-only'>
-                                {person.name}
-                              </span>{' '}
-                            </span>
-                          </button>
+                          <EditMenu
+                            onSubmit={(authorities) =>
+                              updateEmployeeInfo(
+                                authorities,
+                                person.empUsername
+                              )
+                            }
+                          />
                         </div>
                       </li>
                     ))}
@@ -512,5 +608,7 @@ export default function ProjectTeam() {
         </div>
       </div>
     </>
-  );
+  ) : (
+    <div>Loading...</div>
+  ); // TODO: style it
 }
