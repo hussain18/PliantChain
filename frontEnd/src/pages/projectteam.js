@@ -28,14 +28,9 @@ import {
   OfficeBuildingIcon,
   SearchIcon,
 } from '@heroicons/react/solid';
+import { NUMBER_TO_AUTH, PERSON_ICON } from '../components/usefulVariables';
 
 const userIcon = require('../img/person_icon.png').default;
-const NUMBER_TO_AUTH = {
-  1: 'Organization',
-  2: 'Finance Manager',
-  3: 'Employee',
-  0: 'Terminated',
-};
 
 const navigation = [
   { name: 'Home', href: '#', icon: HomeIcon, current: false },
@@ -571,7 +566,7 @@ export default function ProjectTeam() {
                           <div className='flex-shrink-0'>
                             <img
                               className='h-10 w-10 rounded-full'
-                              src={userIcon}
+                              src={PERSON_ICON}
                               alt='a person icon'
                             />
                           </div>

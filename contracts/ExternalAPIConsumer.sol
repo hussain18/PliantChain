@@ -1,29 +1,25 @@
 // SPDX-License-Identifier: MIT
-pragma solidity ^0.6.0;
+pragma solidity ^0.8.0;
 
-import "@chainlink/contracts/src/v0.6/ChainlinkClient.sol";
-import "../interfaces/ERC20.sol";
+import "@chainlink/contracts/src/v0.8/ChainlinkClient.sol";
+import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 
 contract ExternalAPIConsumer is ChainlinkClient {
     using Chainlink for Chainlink.Request;
-    IERC20 myToken = IERC20(0x9C6726F316dE9774b1168e0000efdc0F601c4dDF);
 
-    uint256 public allInSystem;
-    uint256 public isProject;
-    uint256 public senderAuthority;
-    uint256 public receiverAuthority;
+    uint256 private allInSystem;
+    uint256 private isProject;
+    uint256 private senderAuthority;
+    uint256 private receiverAuthority;
 
     address private oracle;
     uint256 private fee;
 
     // Transaction data
-    address public sender;
-    address public receiver;
-    uint256 public amount;
-
-    // Test data
-    string public canBeDone;
-    uint256 public balanceOfSender;
+    address private sender;
+    address private receiver;
+    uint256 private amount;
+    address private tokenAddress;
 
     event requestFulfilled(bytes32 requestId, uint256 value);
 
@@ -32,10 +28,10 @@ contract ExternalAPIConsumer is ChainlinkClient {
      * NOTE: to use the contract you need to create your own node, bridge and jobs
      */
 
-    constructor(address _oracle) public {
+    constructor(address _oracle, uint256 _fee) public {
         setPublicChainlinkToken();
         oracle = _oracle;
-        fee = 0.1 * 10**18;
+        fee = _fee;
     }
 
     /**
@@ -57,6 +53,7 @@ contract ExternalAPIConsumer is ChainlinkClient {
         request.add("senderAddress", _senderAddress);
         request.add("receiverAddress", _receiverAddress);
         request.add("jwtToken", _jwtToken);
+        request.add("jsonPath", "data,allInSystem");
         sendChainlinkRequestTo(oracle, request, fee);
     }
 
@@ -76,6 +73,7 @@ contract ExternalAPIConsumer is ChainlinkClient {
         request.add("senderAddress", _senderAddress);
         request.add("receiverAddress", _receiverAddress);
         request.add("jwtToken", _jwtToken);
+        request.add("jsonPath", "data,isProject");
         sendChainlinkRequestTo(oracle, request, fee);
     }
 
@@ -95,6 +93,7 @@ contract ExternalAPIConsumer is ChainlinkClient {
         request.add("senderAddress", _senderAddress);
         request.add("receiverAddress", _receiverAddress);
         request.add("jwtToken", _jwtToken);
+        request.add("jsonPath", "data,senderAuthority");
         sendChainlinkRequestTo(oracle, request, fee);
     }
 
@@ -114,6 +113,7 @@ contract ExternalAPIConsumer is ChainlinkClient {
         request.add("senderAddress", _senderAddress);
         request.add("receiverAddress", _receiverAddress);
         request.add("jwtToken", _jwtToken);
+        request.add("jsonPath", "data,receiverAuthority");
         sendChainlinkRequestTo(oracle, request, fee);
     }
 
@@ -121,15 +121,18 @@ contract ExternalAPIConsumer is ChainlinkClient {
      * Callback functions
      */
     function fulfillAllInSystem(bytes32 _requestId, uint256 _allInSystem)
-        public
+        external
         recordChainlinkFulfillment(_requestId)
     {
         allInSystem = _allInSystem;
+        require(allInSystem > 0, "Not all in system");
+        require(authValidation(), "Invalid Authority transfer attempt");
+        sendTokens();
         emit requestFulfilled(_requestId, allInSystem);
     }
 
     function fulfillIsProject(bytes32 _requestId, uint256 _isProject)
-        public
+        external
         recordChainlinkFulfillment(_requestId)
     {
         isProject = _isProject;
@@ -139,7 +142,7 @@ contract ExternalAPIConsumer is ChainlinkClient {
     function fulfillSenderAuthority(
         bytes32 _requestId,
         uint256 _senderAuthority
-    ) public recordChainlinkFulfillment(_requestId) {
+    ) external recordChainlinkFulfillment(_requestId) {
         senderAuthority = _senderAuthority;
         emit requestFulfilled(_requestId, senderAuthority);
     }
@@ -147,19 +150,20 @@ contract ExternalAPIConsumer is ChainlinkClient {
     function fulfillReceiverAuthority(
         bytes32 _requestId,
         uint256 _receiverAuthority
-    ) public recordChainlinkFulfillment(_requestId) {
+    ) external recordChainlinkFulfillment(_requestId) {
         receiverAuthority = _receiverAuthority;
-        sendTokens();
         emit requestFulfilled(_requestId, receiverAuthority);
     }
 
     // Transaction function
     function makeTransaction(
         address _to,
+        address _tokenAddress,
         string memory _jwtToken,
         string memory _orgAddress,
+        string memory _jobId,
         uint256 _amount
-    ) public {
+    ) external {
         string memory senderAddress = toString(msg.sender);
         string memory receiverAddress = toString(_to);
 
@@ -167,32 +171,33 @@ contract ExternalAPIConsumer is ChainlinkClient {
         sender = msg.sender;
         receiver = _to;
         amount = _amount;
+        tokenAddress = _tokenAddress;
 
         // Getting verification data from offchain database
-        requestAllInSystem(
-            _jwtToken,
-            "5787b0018e624c0fa81b36573cc766fa",
-            _orgAddress,
-            senderAddress,
-            receiverAddress
-        );
         requestIsProject(
             _jwtToken,
-            "5c0a8996ef474b37874a59d511058829",
+            _jobId,
             _orgAddress,
             senderAddress,
             receiverAddress
         );
         requestSenderAuthority(
             _jwtToken,
-            "3f0baa9f71ad49d59cb11aeab10686a7",
+            _jobId,
             _orgAddress,
             senderAddress,
             receiverAddress
         );
         requestReceiverAuthority(
             _jwtToken,
-            "5136b192a71c476a90631dbb00a1201d",
+            _jobId,
+            _orgAddress,
+            senderAddress,
+            receiverAddress
+        );
+        requestAllInSystem(
+            _jwtToken,
+            _jobId,
             _orgAddress,
             senderAddress,
             receiverAddress
@@ -202,7 +207,7 @@ contract ExternalAPIConsumer is ChainlinkClient {
     // Validation functions
     function authValidation() internal returns (bool) {
         require(senderAuthority > 0);
-        require(recieverAuthority > 0);
+        require(receiverAuthority > 0);
         if (senderAuthority == 3 && receiverAuthority == 2) {
             return true;
         }
@@ -214,20 +219,25 @@ contract ExternalAPIConsumer is ChainlinkClient {
     //1. Approve address(this) to transfer tokens
     function sendTokens() public payable {
         uint256 tokenAmount = amount; //total
-        require(myToken.balanceOf(sender) >= tokenAmount, "Not enough Tokens");
-        require(authValidation(), "Invalid Authority transfer attempt");
+        if (tokenAmount > 0) {
+            IERC20 myToken = IERC20(tokenAddress);
+            require(
+                myToken.balanceOf(sender) >= tokenAmount,
+                "Not enough Tokens"
+            );
 
-        uint256 allowance = myToken.allowance(sender, address(this));
+            uint256 allowance = myToken.allowance(sender, address(this));
 
-        require(allowance >= tokenAmount, "Not enough Tokens");
+            require(allowance >= tokenAmount, "Not Enough Token Allowance");
 
-        myToken.transferFrom(sender, receiver, tokenAmount);
-        //   emit TokensTransfer(amount, _to, tokenAmount, rate);
+            myToken.transferFrom(sender, receiver, tokenAmount);
+            clearValues();
+        }
     }
 
     // Helpers
     function stringToBytes32(string memory source)
-        public
+        internal
         pure
         returns (bytes32 result)
     {
@@ -241,19 +251,19 @@ contract ExternalAPIConsumer is ChainlinkClient {
         }
     }
 
-    function toString(address account) public pure returns (string memory) {
+    function toString(address account) internal pure returns (string memory) {
         return toString(abi.encodePacked(account));
     }
 
-    function toString(uint256 value) public pure returns (string memory) {
+    function toString(uint256 value) internal pure returns (string memory) {
         return toString(abi.encodePacked(value));
     }
 
-    function toString(bytes32 value) public pure returns (string memory) {
+    function toString(bytes32 value) internal pure returns (string memory) {
         return toString(abi.encodePacked(value));
     }
 
-    function toString(bytes memory data) public pure returns (string memory) {
+    function toString(bytes memory data) internal pure returns (string memory) {
         bytes memory alphabet = "0123456789abcdef";
 
         bytes memory str = new bytes(2 + data.length * 2);
@@ -266,7 +276,7 @@ contract ExternalAPIConsumer is ChainlinkClient {
         return string(str);
     }
 
-    function clearValues() public {
+    function clearValues() private {
         allInSystem = 0;
         isProject = 0;
         senderAuthority = 0;
@@ -274,6 +284,5 @@ contract ExternalAPIConsumer is ChainlinkClient {
         sender = 0x0000000000000000000000000000000000000000;
         receiver = 0x0000000000000000000000000000000000000000;
         amount = 0;
-        canBeDone = "";
     }
 }
