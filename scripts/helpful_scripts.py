@@ -8,14 +8,32 @@ from brownie import (
     VRFCoordinatorMock,
     Contract,
 )
+
 from web3 import Web3
 
-NON_FORKED_LOCAL_BLOCKCHAIN_ENVIRONMENTS = ["hardhat", "development", "ganache"]
+NON_FORKED_LOCAL_BLOCKCHAIN_ENVIRONMENTS = [
+    "hardhat", "development", "ganache"]
 LOCAL_BLOCKCHAIN_ENVIRONMENTS = NON_FORKED_LOCAL_BLOCKCHAIN_ENVIRONMENTS + [
     "mainnet-fork",
     "binance-fork",
     "matic-fork",
 ]
+
+USER_ADDRESSES = {
+    'org': config['user_addresses']['org'].upper(),
+    'user1': config['user_addresses']['user1'].upper(),
+    'user2': config['user_addresses']['user2'].upper(),
+    'user3': config['user_addresses']['user3'].upper(),
+    'user4': config['user_addresses']['user4'].upper(),
+}
+
+USER_LOGIN_TOKENS = {
+    'org': config['user_login_tokens']['org'],
+    'user1': config['user_login_tokens']['user1'],
+    'user2': config['user_login_tokens']['user2'],
+    'user3': config['user_login_tokens']['user3'],
+    'user4': config['user_login_tokens']['user4'],
+}
 
 contract_to_mock = {
     "link_token": LinkToken,
@@ -62,7 +80,8 @@ def get_contract(contract_name):
         contract = contract_type[-1]
     else:
         try:
-            contract_address = config["networks"][network.show_active()][contract_name]
+            contract_address = config["networks"][network.show_active(
+            )][contract_name]
             contract = Contract.from_abi(
                 contract_type._name, contract_address, contract_type.abi
             )
@@ -81,7 +100,7 @@ def fund_with_link(
 ):
     account = account if account else get_account()
     link_token = link_token if link_token else get_contract("link_token")
-    ### Keep this line to show how it could be done without deploying a mock
+    # Keep this line to show how it could be done without deploying a mock
     # tx = interface.LinkTokenInterface(link_token.address).transfer(
     #     contract_address, amount, {"from": account}
     # )

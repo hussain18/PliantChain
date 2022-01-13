@@ -6,6 +6,8 @@ const createUser = async (user) => {
   try {
     if (!user) throw new Error('Undefined user data passed');
 
+    user.accountAddress = user.accountAddress.toLowerCase();
+
     const newUser = new UserModel(user);
     await models.saveModel(newUser);
     return { success: true };
@@ -40,6 +42,19 @@ const updateUser = async (username, Data) => {
   }
 };
 
+const getUserByAddress = async (address) => {
+  try {
+    if (!address) throw new Error('Address is undefined');
+    const user = await models.findOneModel(UserModel, {
+      accountAddress: address.toLowerCase(),
+    });
+    return user;
+  } catch (err) {
+    console.log('DB_GET_USER_ERROR: ', err);
+    return { success: false };
+  }
+};
+
 const allUsers = async () => {
   try {
     const allUsers = await models.findModel(UserModel, {});
@@ -55,4 +70,5 @@ module.exports = {
   getUser,
   updateUser,
   allUsers,
+  getUserByAddress,
 };

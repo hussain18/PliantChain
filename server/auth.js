@@ -26,23 +26,31 @@ const authenticateUser = async (user) => {
 
 // Authenticate tokens
 const authenticateToken = (req, res, next) => {
-  const authHeader = req.headers.authorization.split(' ')[1];
+  try {
+    if (!req.headers.authorization) return res.sendStatus(403);
 
-  // Note: Uncomment the following when using react
-  // const authHeader = req.headers.authorization;
+    let authHeader = req.headers.authorization.split(' ');
 
-  const token = authHeader;
-  if (token == null) return res.sendStatus(401);
+    if (authHeader.length > 1) authHeader = authHeader[1];
+    else authHeader = authHeader[0];
 
-  jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, (err, user) => {
-    if (err) return res.sendStatus(403);
-    req.user = user;
-    next();
-  });
+    const token = authHeader;
+    if (token == null) return res.sendStatus(401);
+
+    jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, (err, user) => {
+      if (err) return res.sendStatus(403);
+      req.user = user;
+      next();
+    });
+  } catch (err) {
+    console.log('TOKEN_AUTHENTICATION_ERROR: ', err);
+    return res.sendStatus(500);
+  }
 };
 
 // Create Tokens
 const createTokens = (user) => {
+  // return jwt.sign(user, process.env.ACCESS_TOKEN_SECRET); //NOTE: this is only for brownie test
   return jwt.sign(user, process.env.ACCESS_TOKEN_SECRET, { expiresIn: '100m' }); //NOTE: length of time is only for testing
 };
 
