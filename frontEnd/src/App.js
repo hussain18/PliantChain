@@ -16,7 +16,6 @@ import { HashRouter as Router, Routes, Route } from 'react-router-dom';
 function App() {
   return (
     <Router>
-<<<<<<< HEAD
       <Routes>     
         <Route path="/signin" element = {<Signin/>} />
         <Route path="/signup" element = {<SignUp/>} />
@@ -26,22 +25,9 @@ function App() {
         <Route path="/project" element = {<Projects/>} />   
         <Route path="/profile" element = {<Profile/>} /> 
         <Route path="/settings" element = {<Settings/>} /> 
-        <Route path="/projectteam" element = {<ProjectTeam/>} /> 
+        <Route path='/project/:projectName' element={<ProjectTeam />} />
         <Route path="/landingpage" element = {<LandingPage/>} /> 
         <Route path="/" element = {<Dashboard/>} /> 
-=======
-      <Routes>
-        <Route path='/signin' element={<Signin />} />
-        <Route path='/signup' element={<SignUp />} />
-        <Route path='/team' element={<Team />} />
-        <Route path='/history' element={<History />} />
-        <Route path='/balances' element={<Balances />} />
-        <Route path='/project' element={<Projects />} />
-        <Route path='/profile' element={<Profile />} />
-        <Route path='/settings' element={<Settings />} />
-        <Route path='/project/:projectName' element={<ProjectTeam />} />
-        <Route path='/' element={<Dashboard />} />
->>>>>>> d4d9aeb24c00c988499557af7c1dba19c1a7ab55
       </Routes>
     </Router>
   );

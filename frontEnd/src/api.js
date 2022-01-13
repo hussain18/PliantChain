@@ -1,15 +1,7 @@
-<<<<<<< HEAD
-require('dotenv').config();
-
-const axios = require('axios').default;
-
-const SERVER_URL = 'http://localhost:3001';
-=======
 import axios from 'axios';
 require('dotenv').config();
 
 const SERVER_URL = 'http://localhost:2021';
->>>>>>> d4d9aeb24c00c988499557af7c1dba19c1a7ab55
 const LOCAL_TOKEN = 'refreshToken.authorize';
 let REFRESH_TOKEN = null;
 const HEADERS = { 'Content-type': 'application/json' };
@@ -111,17 +103,4 @@ async function PATCH(opts) {
   return res.data;
 }
 
-<<<<<<< HEAD
-module.exports = {
-  signup,
-  login,
-  authRequest,
-  GET,
-  POST,
-  PATCH,
-  getAuth,
-  removeAuth,
-};
-=======
 export { signup, login, authRequest, GET, POST, PATCH, getAuth, removeAuth };
->>>>>>> d4d9aeb24c00c988499557af7c1dba19c1a7ab55
