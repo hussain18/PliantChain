@@ -413,8 +413,7 @@ export default function Example() {
                 </h2>
                 <p className="mt-2 text-white text-3xl font-extrabold tracking-tight sm:text-4xl">We’re here to help</p>
                 <p className="mt-3 text-lg text-gray-300">
-                  help help help help help support. contact us .. contatc us . team will help . 
-                  help help help help help support. contact us .. contatc us . team will help . 
+                  You can contact our support team regarding any doubt related queries. 
 
                 </p>
                 <div className="mt-8">
