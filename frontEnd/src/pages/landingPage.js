@@ -26,29 +26,29 @@ const features = [
     icon: CloudUploadIcon,
   }, 
   {
-    name: 'Advanced Security',
-    description: 'security of database and all transactaions is managed with help of end to end encryption.',
+    name: 'Create Team',
+    description: 'Team of employees will be created for each project very efficiently with the ease. Admin will be responsible for creating team via invitation to each.',
     icon: ShieldCheckIcon,
   },
   {
-    name: 'Advanced Security',
-    description: 'security of database and all transactaions is managed with help of end to end encryption.',
+    name: 'Create Structure',
+    description: 'Structure is all about Structure of orgnization and the teams, projects and employees. Structure cab be created at the creation of organization.',
     icon: ShieldCheckIcon,
   },
   {
-    name: 'Advanced Security',
-    description: 'security of database and all transactaions is managed with help of end to end encryption.',
+    name: 'Create Projects',
+    description: 'If organization is working on financial project then admin have to create project assign it to employees via invitation and creating team. For creating Project Admin also can create description of it. ',
     icon: ShieldCheckIcon,
   },
   {
-    name: 'Advanced Security',
-    description: 'security of database and all transactaions is managed with help of end to end encryption.',
+    name: 'Balances',
+    description: 'Finances of organization is easily manageble through this app. This app will help all transactions to process securely and corruption free.',
     icon: ShieldCheckIcon,
   },
   
   {
     name: 'Advanced Security',
-    description: 'security of database and all transactaions is managed with help of end to end encryption.',
+    description: 'Security of database and all transactaions is managed with help of end to end encryption.',
     icon: ShieldCheckIcon,
   },
 ]
@@ -61,28 +61,29 @@ const blogPosts = [
     imageUrl:
       'https://images.unsplash.com/photo-1496128858413-b36217c2ce36?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1679&q=80',
     preview:
-      'This is test. This is test.This is test.This is test.This is test.This is test.This is test.This is test.This is test.This is test.This is test.This is test.This is test.This is test.This is test.This is test.This is test.This is test.This is test.This is test.This is test.',
+      'If you are ADMIN of your organization then go on and sign up the website with your Role as ADMIN when creating your account on PliantChain. You will be assigned with all the authorities that needed. You will be highest authority that orgnization can have.' ,
   },
   {
     id: 2,
-    title: 'EMPLOYEE',
-    href: '#/landingpage',
-    category: { name: 'Employee', href: '#/landingpage' },
-    imageUrl:
-      'https://images.unsplash.com/photo-1547586696-ea22b4d4235d?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1679&q=80',
-    preview:
-      'This is test. This is test.This is test.This is test.This is test.This is test.This is test.This is test.This is test.This is test.This is test.This is test.This is test.This is test.This is test.This is test.This is test.This is test.This is test.This is test.This is test.',
-  },
-  {
-    id: 3,
     title: 'USER',
     href: '#/landingpage',
     category: { name: 'User', href: '#/landingpage' },
     imageUrl:
       'https://images.unsplash.com/photo-1492724441997-5dc865305da7?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1679&q=80',
     preview:
-      'This is test. This is test.This is test.This is test.This is test.This is test.This is test.This is test.This is test.This is test.This is test.This is test.This is test.This is test.This is test.This is test.This is test.This is test.This is test.This is test.This is test.',
+      'If you are only USER in your organization then go on and sign up the website with your Role as user when creating your account on PliantChain. You will be assigned with all the authorities that needed. ADMIN will be higher authority for user of organization. ',
   },
+  {
+    id: 3,
+    title: 'EMPLOYEE',
+    href: '#/landingpage',
+    category: { name: 'Employee', href: '#/landingpage' },
+    imageUrl:
+      'https://images.unsplash.com/photo-1547586696-ea22b4d4235d?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1679&q=80',
+    preview:
+      'If you are Employee in your organization then go on and sign up the website with your Role as user when creating your account on PliantChain. You will be assigned with all the authorities that needed by ADMIN via invitation. ADMIN will be higher authority.',
+  },
+  
 ]
 const footerNavigation = {
   company: [
