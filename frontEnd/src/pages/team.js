@@ -123,7 +123,7 @@ const people = [
 ];
 
 const navigation = [
-  { name: 'Home', href: '#', icon: HomeIcon, current: false },
+  { name: 'Home', href: '#/home', icon: HomeIcon, current: false },
   { name: 'History', href: '#/history', icon: ClockIcon, current: false },
   { name: 'Balances', href: '#/balances', icon: ScaleIcon, current: false },
   { name: 'Profile', href: '#/profile', icon: CreditCardIcon, current: false },
@@ -250,11 +250,19 @@ export default function Team() {
   }, [!dataLoaded]);
 
   const getStructureData = async () => {
-    if (!getAuth()) return; // TODO: has to return to landing page with a flash message
+    if (!getAuth()) {
+      console.log('only organizations are allowed');
+      window.location = '#/';
+      return;
+    } // TODO: has to return to landing page with a flash message
 
     const user = await authRequest('/user', GET);
     if (!user) return;
-    if (!user.type === '1') return; // TODO: redirect to landing page with a flash message
+    if (!user.type === '1') {
+      console.log('only organizations are allowed');
+      window.location = '#/';
+      return;
+    } // TODO: redirect to landing page with a flash message
 
     // add organization info to structure
     const orgInfo = {
@@ -540,7 +548,7 @@ export default function Team() {
                       <Menu.Item>
                         {({ active }) => (
                           <a
-                            href='#'
+                            href='#/profile'
                             className={classNames(
                               active ? 'bg-gray-100' : '',
                               'block px-4 py-2 text-sm text-gray-700'
@@ -553,7 +561,7 @@ export default function Team() {
                       <Menu.Item>
                         {({ active }) => (
                           <a
-                            href='#'
+                            href='#/settings'
                             className={classNames(
                               active ? 'bg-gray-100' : '',
                               'block px-4 py-2 text-sm text-gray-700'
