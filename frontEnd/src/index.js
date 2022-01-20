@@ -3,10 +3,14 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
+import { DAppProvider } from '@usedapp/core';
+import { ConnectToWeb3 } from './components/connectToWeb3';
 
 ReactDOM.render(
   <React.StrictMode>
-    <App />
+    <DAppProvider>
+      <App />
+    </DAppProvider>
   </React.StrictMode>,
   document.getElementById('root')
 );
