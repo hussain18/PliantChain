@@ -13,7 +13,7 @@ import {
 import { ChevronRightIcon, ExternalLinkIcon } from '@heroicons/react/solid'
 
 const navigation = [
-  { name: 'About Us', href: '#/landingpage' },
+  { name: 'About Us', href: '#/' },
   { name: 'Features', href: '#' },
   { name: 'How it Works', href: '#' },
   { name: 'Help', href: '#' },
@@ -413,8 +413,7 @@ export default function Example() {
                 </h2>
                 <p className="mt-2 text-white text-3xl font-extrabold tracking-tight sm:text-4xl">We’re here to help</p>
                 <p className="mt-3 text-lg text-gray-300">
-                  You can contact our support team regarding any doubt related queries. 
-
+                  You can contact our support team regarding any doubt related queries.
                 </p>
                 <div className="mt-8">
                   <div className="inline-flex rounded-md shadow">

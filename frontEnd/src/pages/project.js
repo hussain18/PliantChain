@@ -48,7 +48,7 @@ const projectTemplate = {
 };
 
 const navigation = [
-  { name: 'Home', href: '#', icon: HomeIcon, current: false },
+  { name: 'Home', href: '#/home', icon: HomeIcon, current: false },
   { name: 'History', href: '#/history', icon: ClockIcon, current: false },
   { name: 'Balances', href: '#/balances', icon: ScaleIcon, current: false },
   { name: 'Profile', href: '#', icon: CreditCardIcon, current: false },
@@ -139,10 +139,18 @@ export default function Projects() {
   }, [!dataLoaded]);
 
   const loadProjectsData = async () => {
-    if (!getAuth()) return; // TODO: redirect to landing page with a flash message (not signed in)
+    if (!getAuth()) {
+      console.log('username or password is wrong');
+      window.location = '#/';
+      return;
+    } // TODO: redirect to landing page with a flash message (not signed in)
 
     const user = await authRequest('/user', GET);
-    if (user.type !== '1') return; // TODO: redirect to profile/dashboard with a flash message (only organization can access)
+    if (user.type !== '1') {
+      console.log('only organization can access');
+      window.location = '#/home';
+      return;
+    } // TODO: redirect to profile/dashboard with a flash message (only organization can access)
 
     const projects = await authRequest('/projects', GET);
 
@@ -400,7 +408,7 @@ export default function Projects() {
                       <Menu.Item>
                         {({ active }) => (
                           <a
-                            href='#'
+                            href='#/profile'
                             className={classNames(
                               active ? 'bg-gray-100' : '',
                               'block px-4 py-2 text-sm text-gray-700'
@@ -413,7 +421,7 @@ export default function Projects() {
                       <Menu.Item>
                         {({ active }) => (
                           <a
-                            href='#'
+                            href='#/settings'
                             className={classNames(
                               active ? 'bg-gray-100' : '',
                               'block px-4 py-2 text-sm text-gray-700'

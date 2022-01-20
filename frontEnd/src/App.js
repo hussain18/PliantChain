@@ -26,8 +26,8 @@ function App() {
         <Route path="/profile" element = {<Profile/>} /> 
         <Route path="/settings" element = {<Settings/>} /> 
         <Route path='/project/:projectName' element={<ProjectTeam />} />
-        <Route path="/landingpage" element = {<LandingPage/>} /> 
-        <Route path="/" element = {<Dashboard/>} /> 
+        <Route path="/home" element = {<Dashboard/>} /> 
+        <Route path="/" element = {<LandingPage/>} /> 
       </Routes>
     </Router>
   );
