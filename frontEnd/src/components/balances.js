@@ -4,7 +4,7 @@ import {
   useToken,
   useTokenBalance,
 } from '@usedapp/core';
-import { PLT_TOKEN_ADDRESS } from '../chainInfo/addresses';
+import { getPltAddress, getLinkAddress } from '../chainInfo/addresses';
 import { formatUnits, formatEther } from '@ethersproject/units';
 
 const ETHER_ICON = require('../img/Ether_icon.png').default;
@@ -39,9 +39,9 @@ const BalanceView = (props) => {
 };
 
 const UserBalances = (props) => {
-  const { account } = useEthers();
+  const { account, chainId } = useEthers();
   const etherBalance = useEtherBalance(account);
-  const pltBalance = useTokenBalance(PLT_TOKEN_ADDRESS, account);
+  const pltBalance = useTokenBalance(getPltAddress(chainId || 4), account);
   return etherBalance && pltBalance ? (
     <>
       <BalanceView name='Ether' amount={formatEther(etherBalance)} />
