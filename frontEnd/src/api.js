@@ -103,4 +103,14 @@ async function PATCH(opts) {
   return res.data;
 }
 
-export { signup, login, authRequest, GET, POST, PATCH, getAuth, removeAuth };
+export {
+  signup,
+  login,
+  authRequest,
+  GET,
+  POST,
+  PATCH,
+  getAuth,
+  removeAuth,
+  getToken,
+};
