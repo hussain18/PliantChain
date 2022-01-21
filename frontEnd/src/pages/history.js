@@ -23,7 +23,8 @@ import {
   ChevronRightIcon,
   OfficeBuildingIcon,
   SearchIcon,
-} from '@heroicons/react/solid';
+} from '@heroicons/react/solid'
+import {GET,authRequest} from '../api.js'
 
 const navigation = [
   { name: 'Home', href: '#/home', icon: HomeIcon, current: false },
@@ -71,7 +72,18 @@ function classNames(...classes) {
 }
 
 export default function History() {
-  const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [sidebarOpen, setSidebarOpen] = useState(false)
+  const [completeName, setCompleteName] = useState("");
+
+  const getUser = async ()=>{
+   let res = await authRequest('/user', GET);
+   // console.log(res);
+   setCompleteName(res.completeName)
+ }
+ useEffect(()=>{
+   getUser();
+ },[])
+
 
   return (
     <>
@@ -128,9 +140,9 @@ export default function History() {
                 </Transition.Child>
                 <div className='flex-shrink-0 flex items-center px-4'>
                   <img
-                    className='h-8 w-auto'
-                    src='https://tailwindui.com/img/logos/easywire-logo-cyan-300-mark-white-text.svg'
-                    alt='Easywire logo'
+                    className="h-12 w-auto"
+                    src="https://tailwindui.com/img/logos/workflow-mark-teal-200-cyan-400.svg"
+                    alt="Easywire logo"
                   />
                 </div>
                 <nav
@@ -190,9 +202,9 @@ export default function History() {
           <div className='flex flex-col flex-grow bg-cyan-700 pt-5 pb-4 overflow-y-auto'>
             <div className='flex items-center flex-shrink-0 px-4'>
               <img
-                className='h-8 w-auto'
-                src='https://tailwindui.com/img/logos/easywire-logo-cyan-300-mark-white-text.svg'
-                alt='Easywire logo'
+                className="h-12 w-auto"
+                src="https://tailwindui.com/img/logos/workflow-mark-teal-200-cyan-400.svg"
+                alt="Easywire logo"
               />
             </div>
             <nav
@@ -293,9 +305,8 @@ export default function History() {
                         src='https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80'
                         alt=''
                       />
-                      <span className='hidden ml-3 text-gray-700 text-sm font-medium lg:block'>
-                        <span className='sr-only'>Open user menu for </span>
-                        Sunita Patil
+                      <span className="hidden ml-3 text-gray-700 text-sm font-medium lg:block">
+                        <span className="sr-only">Open user menu for </span>{completeName.toUpperCase() }
                       </span>
                       <ChevronDownIcon
                         className='hidden flex-shrink-0 ml-1 h-5 w-5 text-gray-400 lg:block'
@@ -378,8 +389,8 @@ export default function History() {
                             src='https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2.6&w=256&h=256&q=80'
                             alt=''
                           />
-                          <h1 className='ml-3 text-2xl font-bold leading-7 text-gray-900 sm:leading-9 sm:truncate'>
-                            Hello, Sunita Patil
+                          <h1 className="ml-3 text-2xl font-bold leading-7 text-gray-900 sm:leading-9 sm:truncate">
+                            Hello, {completeName.toUpperCase() }
                           </h1>
                         </div>
                         <dl className='mt-6 flex flex-col sm:ml-3 sm:mt-1 sm:flex-row sm:flex-wrap'>
