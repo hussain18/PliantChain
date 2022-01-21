@@ -115,8 +115,8 @@ export default function Balances() {
                 </Transition.Child>
                 <div className="flex-shrink-0 flex items-center px-4">
                   <img
-                    className="h-8 w-auto"
-                    src="https://tailwindui.com/img/logos/easywire-logo-cyan-300-mark-white-text.svg"
+                    className="h-12 w-auto"
+                    src="https://tailwindui.com/img/logos/workflow-mark-teal-200-cyan-400.svg"
                     alt="Easywire logo"
                   />
                 </div>
@@ -169,8 +169,8 @@ export default function Balances() {
           <div className="flex flex-col flex-grow bg-cyan-700 pt-5 pb-4 overflow-y-auto">
             <div className="flex items-center flex-shrink-0 px-4">
               <img
-                className="h-8 w-auto"
-                src="https://tailwindui.com/img/logos/easywire-logo-cyan-300-mark-white-text.svg"
+                className="h-12 w-auto"
+                src="https://tailwindui.com/img/logos/workflow-mark-teal-200-cyan-400.svg"
                 alt="Easywire logo"
               />
             </div>
