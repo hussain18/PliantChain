@@ -6,6 +6,7 @@ import {
 } from '@usedapp/core';
 import { getPltAddress, getLinkAddress } from '../chainInfo/addresses';
 import { formatUnits, formatEther } from '@ethersproject/units';
+import { useLinkFunding, useApproveToken } from '../hooks'; //test...
 
 const ETHER_ICON = require('../img/Ether_icon.png').default;
 
@@ -42,10 +43,18 @@ const UserBalances = (props) => {
   const { account, chainId } = useEthers();
   const etherBalance = useEtherBalance(account);
   const pltBalance = useTokenBalance(getPltAddress(chainId || 4), account);
+  const { fundingState, fundWithLink } = useLinkFunding(); //test...
+  const { approvingState, approve } = useApproveToken(); //test...
+
+  console.log('approving state: ', approvingState); //test..
+
   return etherBalance && pltBalance ? (
     <>
       <BalanceView name='Ether' amount={formatEther(etherBalance)} />
       <BalanceView name='PLT Token' amount={formatUnits(pltBalance, 18)} />
+      <button onClick={() => fundWithLink()}>Fund With Link :)</button>
+      <button onClick={() => approve(10)}>approve :)</button>
+      {/* <p>state: {fundingState}</p> */}
     </>
   ) : (
     <div>Loading...</div>
