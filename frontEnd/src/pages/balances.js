@@ -24,6 +24,7 @@ import {
   OfficeBuildingIcon,
   SearchIcon,
 } from '@heroicons/react/solid';
+import {GET,authRequest} from '../api.js'
 import UserBalances from '../components/balances';
 
 const navigation = [
@@ -73,6 +74,16 @@ function classNames(...classes) {
 
 export default function Balances() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [completeName, setCompleteName] = useState("");
+
+   const getUser = async ()=>{
+    let res = await authRequest('/user', GET);
+    // console.log(res);
+    setCompleteName(res.completeName)
+  }
+  useEffect(()=>{
+    getUser();
+  },[])
 
   return (
     <>
@@ -296,7 +307,7 @@ export default function Balances() {
                       />
                       <span className='hidden ml-3 text-gray-700 text-sm font-medium lg:block'>
                         <span className='sr-only'>Open user menu for </span>
-                        Sunita Patil
+                        {completeName.toUpperCase() }
                       </span>
                       <ChevronDownIcon
                         className='hidden flex-shrink-0 ml-1 h-5 w-5 text-gray-400 lg:block'
@@ -380,7 +391,7 @@ export default function Balances() {
                             alt=''
                           />
                           <h1 className='ml-3 text-2xl font-bold leading-7 text-gray-900 sm:leading-9 sm:truncate'>
-                            Hello, Sunita Patil
+                            Hello, {completeName.toUpperCase() }
                           </h1>
                         </div>
                         <dl className='mt-6 flex flex-col sm:ml-3 sm:mt-1 sm:flex-row sm:flex-wrap'>
