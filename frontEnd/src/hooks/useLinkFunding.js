@@ -26,7 +26,7 @@ const useLinkFunding = () => {
   fundingState = state;
 
   const fundWithLink = (
-    amount = DEFAULT_FEE,
+    amount = DEFAULT_FEE * 4,
     contractAddress = getExternalContractAddress(chainId || 4)
   ) => {
     send(contractAddress, utils.parseEther(String(amount)));

@@ -268,6 +268,7 @@ export default function Team() {
     const orgInfo = {
       empUsername: user.username,
       authorities: '1',
+      empAccountAddress: user.accountAddress,
     };
 
     const structure = await authRequest('/structure', GET);
@@ -686,6 +687,9 @@ export default function Team() {
                             </p>
                             <p className='text-sm font-medium text-gray-500 truncate'>
                               {NUMBER_TO_AUTH[person.authorities]}
+                            </p>
+                            <p className='text-sm font-medium text-gray-500 truncate'>
+                              {person.empAccountAddress}
                             </p>
                           </div>
                         </div>
