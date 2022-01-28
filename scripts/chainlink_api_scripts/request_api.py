@@ -46,7 +46,7 @@ def main():
     api_contract = ExternalAPIConsumer[-1]
     org_address = USER_ADDRESSES['org']
     sender_address = USER_ADDRESSES['user1']
-    receiver_address = USER_ADDRESSES['user2']
+    receiver_address = USER_ADDRESSES['user3']
 
     sender_login_token = USER_LOGIN_TOKENS['user1']
     job_id = config['networks'][network.show_active()]['jobId']

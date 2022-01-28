@@ -48,7 +48,7 @@ const profile = {
 };
 
 const navigation = [
-  { name: 'Home', href: '#', icon: HomeIcon, current: false },
+  { name: 'Home', href: '#/home', icon: HomeIcon, current: false },
   { name: 'History', href: '#/history', icon: ClockIcon, current: false },
   { name: 'Balances', href: '#/balances', icon: ScaleIcon, current: false },
   { name: 'Profile', href: '#/profile', icon: CreditCardIcon, current: true },
@@ -107,11 +107,20 @@ export default function Profile() {
   }, [!infoLoaded]);
 
   const getUserData = async () => {
-    if (!getAuth()) return; // TODO: redirect to landing page with a flash message
+    if (!getAuth()) {
+      console.log('username or password is wrong');
+      window.location = '#/';
+      return;
+    }
+     // TODO: redirect to landing page with a flash message
 
     const defaultUserInfo = JSON.parse(JSON.stringify(profile));
     const user = await authRequest('/user', GET);
-    if (!user) return; // TODO: redirect to landing page with a flash message
+    if (!user) {
+      console.log('username or password is wrong');
+      window.location = '#/';
+      return;
+    } // TODO: redirect to landing page with a flash message
 
     defaultUserInfo.name = user.completeName;
     defaultUserInfo.fields.Type =
@@ -179,8 +188,8 @@ export default function Profile() {
                 </Transition.Child>
                 <div className='flex-shrink-0 flex items-center px-4'>
                   <img
-                    className='h-8 w-auto'
-                    src='https://tailwindui.com/img/logos/easywire-logo-cyan-300-mark-white-text.svg'
+                    className='h-12 w-auto'
+                    src='https://tailwindui.com/img/logos/workflow-mark-teal-200-cyan-400.svg'
                     alt='Easywire logo'
                   />
                 </div>
@@ -241,8 +250,8 @@ export default function Profile() {
           <div className='flex flex-col flex-grow bg-cyan-700 pt-5 pb-4 overflow-y-auto'>
             <div className='flex items-center flex-shrink-0 px-4'>
               <img
-                className='h-8 w-auto'
-                src='https://tailwindui.com/img/logos/easywire-logo-cyan-300-mark-white-text.svg'
+                className='h-12 w-auto'
+                src='https://tailwindui.com/img/logos/workflow-mark-teal-200-cyan-400.svg'
                 alt='Easywire logo'
               />
             </div>
@@ -367,7 +376,7 @@ export default function Profile() {
                       <Menu.Item>
                         {({ active }) => (
                           <a
-                            href='#'
+                            href='#/profile'
                             className={classNames(
                               active ? 'bg-gray-100' : '',
                               'block px-4 py-2 text-sm text-gray-700'
@@ -380,7 +389,7 @@ export default function Profile() {
                       <Menu.Item>
                         {({ active }) => (
                           <a
-                            href='#'
+                            href='#/profile'
                             className={classNames(
                               active ? 'bg-gray-100' : '',
                               'block px-4 py-2 text-sm text-gray-700'
@@ -393,7 +402,7 @@ export default function Profile() {
                       <Menu.Item>
                         {({ active }) => (
                           <a
-                            href='#'
+                            href='#/settings'
                             className={classNames(
                               active ? 'bg-gray-100' : '',
                               'block px-4 py-2 text-sm text-gray-700'

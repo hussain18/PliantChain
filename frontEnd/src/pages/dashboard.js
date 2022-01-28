@@ -1,7 +1,8 @@
-import { Fragment, useState } from 'react';
+import { Fragment, useState, useEffect } from 'react';
 import { removeAuth } from '../api';
 import Footer from '../components/footer';
 import { Dialog, Menu, Transition } from '@headlessui/react';
+import {GET,authRequest} from '../api.js'
 import {
   BellIcon,
   ClockIcon,
@@ -24,9 +25,10 @@ import {
   OfficeBuildingIcon,
   SearchIcon,
 } from '@heroicons/react/solid';
+import { ConnectToWeb3 } from '../components/connectToWeb3';
 
 const navigation = [
-  { name: 'Home', href: '#', icon: HomeIcon, current: true },
+  { name: 'Home', href: '#/home', icon: HomeIcon, current: true },
   { name: 'History', href: '#/history', icon: ClockIcon, current: false },
   { name: 'Balances', href: '#/balances', icon: ScaleIcon, current: false },
   { name: 'Profile', href: '#/profile', icon: CreditCardIcon, current: false },
@@ -72,6 +74,16 @@ function classNames(...classes) {
 
 export default function Dashboard() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [completeName, setCompleteName] = useState("");
+
+   const getUser = async ()=>{
+    let res = await authRequest('/user', GET);
+    // console.log(res);
+    setCompleteName(res.completeName)
+  }
+  useEffect(()=>{
+    getUser();
+  },[])
 
   return (
     <>
@@ -128,8 +140,8 @@ export default function Dashboard() {
                 </Transition.Child>
                 <div className='flex-shrink-0 flex items-center px-4'>
                   <img
-                    className='h-8 w-auto'
-                    src='https://tailwindui.com/img/logos/easywire-logo-cyan-300-mark-white-text.svg'
+                    className='h-12 w-auto'
+                    src='https://tailwindui.com/img/logos/workflow-mark-teal-200-cyan-400.svg'
                     alt='Easywire logo'
                   />
                 </div>
@@ -188,10 +200,10 @@ export default function Dashboard() {
         <div className='hidden lg:flex lg:w-64 lg:flex-col lg:fixed lg:inset-y-0'>
           {/* Sidebar component, swap this element with another sidebar if you like */}
           <div className='flex flex-col flex-grow bg-cyan-700 pt-5 pb-4 overflow-y-auto'>
-            <div className='flex items-center flex-shrink-0 px-4'>
+            <div className='flex items-center  flex-shrink-0 px-4 focus'>
               <img
-                className='h-8 w-auto'
-                src='https://tailwindui.com/img/logos/easywire-logo-cyan-300-mark-white-text.svg'
+                className='h-12  w-auto'
+                src='https://tailwindui.com/img/logos/workflow-mark-teal-200-cyan-400.svg'
                 alt='Easywire logo'
               />
             </div>
@@ -295,7 +307,7 @@ export default function Dashboard() {
                       />
                       <span className='hidden ml-3 text-gray-700 text-sm font-medium lg:block'>
                         <span className='sr-only'>Open user menu for </span>
-                        Sunita Patil
+                        {completeName.toUpperCase() }
                       </span>
                       <ChevronDownIcon
                         className='hidden flex-shrink-0 ml-1 h-5 w-5 text-gray-400 lg:block'
@@ -316,7 +328,7 @@ export default function Dashboard() {
                       <Menu.Item>
                         {({ active }) => (
                           <a
-                            href='#'
+                            href='#/profile'
                             className={classNames(
                               active ? 'bg-gray-100' : '',
                               'block px-4 py-2 text-sm text-gray-700'
@@ -329,7 +341,7 @@ export default function Dashboard() {
                       <Menu.Item>
                         {({ active }) => (
                           <a
-                            href='#'
+                            href='#/settings'
                             className={classNames(
                               active ? 'bg-gray-100' : '',
                               'block px-4 py-2 text-sm text-gray-700'
@@ -380,7 +392,7 @@ export default function Dashboard() {
                             alt=''
                           />
                           <h1 className='ml-3 text-2xl font-bold leading-7 text-gray-900 sm:leading-9 sm:truncate'>
-                            Hello, Sunita Patil
+                            Hello, {completeName. toUpperCase()}
                           </h1>
                         </div>
                         <dl className='mt-6 flex flex-col sm:ml-3 sm:mt-1 sm:flex-row sm:flex-wrap'>
@@ -405,18 +417,7 @@ export default function Dashboard() {
                     </div>
                   </div>
                   <div className='mt-6 flex space-x-3 md:mt-0 md:ml-4'>
-                    <button
-                      type='button'
-                      className='inline-flex items-center px-4 py-2 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-cyan-500'
-                    >
-                      Add money
-                    </button>
-                    <button
-                      type='button'
-                      className='inline-flex items-center px-4 py-2 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-cyan-600 hover:bg-cyan-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-cyan-500'
-                    >
-                      Send money
-                    </button>
+                    <ConnectToWeb3 />
                   </div>
                 </div>
               </div>
